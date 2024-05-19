@@ -1,7 +1,9 @@
 package panels.gameReady;
 
 import frame.MainFrame;
+import ingame.CookieImg;
 
+import javax.swing.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -30,11 +32,15 @@ public class SpeedModeReadyPanel extends ReadyPanel{
                     e1.printStackTrace();
                 }
                 superFrame.getLayout().show(superFrame.getContentPane(), "SpeedGamePanel"); //gamePanel 을 카드레이아웃 최상단으로 변경
-                /*
-                superFrame.gamePanel.gameStart(); // 게임시작
-                superFrame.gamePanel.requestFocus(); // 리스너를 game 패널에 강제로 줌
+                superFrame.getSpeedGamePanel().gameSet(new CookieImg(new ImageIcon("img/cookieimg/cookie2/normal.gif"),
+                        new ImageIcon("img/cookieimg/cookie2/jump.gif"),
+                        new ImageIcon("img/cookieimg/cookie2/doublejump.gif"),
+                        new ImageIcon("img/cookieimg/cookie2/fall.png"),
+                        new ImageIcon("img/cookieimg/cookie2/slide.gif"),
+                        new ImageIcon("img/cookieimg/cookie2/hit.gif")));
+                superFrame.getSpeedGamePanel().gameStart(); // 게임시작
+                superFrame.getSpeedGamePanel().requestFocus();
                 superFrame.setVisible(true);
-                 */
             }
         };
     }

@@ -1,7 +1,9 @@
 package panels.gameReady;
 
 import frame.MainFrame;
+import ingame.CookieImg;
 
+import javax.swing.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -29,11 +31,15 @@ public class NormalScoreModeReadyPanel extends ReadyPanel{
                     e1.printStackTrace();
                 }
                 superFrame.getLayout().show(superFrame.getContentPane(), "NormalScoreGamePanel"); //gamePanel 을 카드레이아웃 최상단으로 변경
-                /*
-                superFrame.gamePanel.gameStart(); // 게임시작
-                superFrame.gamePanel.requestFocus(); // 리스너를 game 패널에 강제로 줌
+                superFrame.getNormalScoreGamePanel().gameSet(new CookieImg(new ImageIcon("img/cookieimg/cookie1/player_origin.gif"),
+                        new ImageIcon("img/cookieimg/cookie1/player_up.gif"),
+                        new ImageIcon("img/cookieimg/cookie1/player_doubleup.gif"),
+                        new ImageIcon("img/cookieimg/cookie1/player_jumpend.png"),
+                        new ImageIcon("img/cookieimg/cookie1/player_down.gif"),
+                        new ImageIcon("img/cookieimg/cookie1/player_attack.png")));
+                superFrame.getNormalScoreGamePanel().gameStart(); // 게임시작
+                superFrame.getNormalScoreGamePanel().requestFocus();
                 superFrame.setVisible(true);
-                 */
             }
         };
     }
