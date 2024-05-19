@@ -1,6 +1,7 @@
 package panels;
 
 import javax.swing.*;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
@@ -27,7 +28,7 @@ public class GameModeSelectPanel extends JPanel {
     }
     private void setComponent(){
         String[] modeArray = {"NormalScore", "HardScore", "Speed", "Enduring"};
-        class ModeButtonMouseListener implements MouseListener {
+        class ModeButtonMouseListener extends MouseAdapter {
             final String mode;
             ModeButtonMouseListener(String mode){
                 super();
@@ -39,17 +40,9 @@ public class GameModeSelectPanel extends JPanel {
                 } catch (InterruptedException e1) {
                     e1.printStackTrace();
                 }
-                superFrame.getLayout().show(superFrame.getContentPane(), mode + "ModeReadyPanel"); //gameReadyPanel을 카드레이아웃 최상단으로 변경
+                superFrame.getLayout().show(superFrame.getContentPane(), mode + "ModeReadyPanel"); //gameReadyPanel 을 카드레이아웃 최상단으로 변경
                 superFrame.setVisible(true);
             }
-            @Override
-            public void mousePressed(MouseEvent e) { }
-            @Override
-            public void mouseReleased(MouseEvent e) { }
-            @Override
-            public void mouseEntered(MouseEvent e) { }
-            @Override
-            public void mouseExited(MouseEvent e) { }
         }
 
         for (int i = 0; i < 4; i++){
@@ -59,14 +52,14 @@ public class GameModeSelectPanel extends JPanel {
             this.add(ModeCookieImage[i]);
 
             ModeButtons[i] = new JButton();
-            ModeButtons[i].setIcon(new ModeSelectButtonImage("img/select/GameStartBtn.png"));
+            ModeButtons[i].setIcon(new ModeSelectButtonImage("img/select/gameSelectButton.png"));
             ModeButtons[i].setBounds(60 + 210 * i, 330, 150, 40);
             ModeButtons[i].setContentAreaFilled(false);
             ModeButtons[i].setBorderPainted(false);
             ModeButtons[i].addMouseListener(new ModeButtonMouseListener(modeArray[i]));
             this.add(ModeButtons[i]);
         }
-        GameModeSelectPanelBackGround.setIcon(new Background("img/select/selectBg.png"));
+        GameModeSelectPanelBackGround.setIcon(new Background("img/select/selectBackground.png"));
         GameModeSelectPanelBackGround.setBounds(0, 0, 900, 500);
         this.add(GameModeSelectPanelBackGround);
     }

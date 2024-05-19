@@ -8,6 +8,7 @@ import image.ModeSelectButtonImage;
 import image.RankingLabel;
 
 import java.awt.*;
+import java.awt.event.MouseListener;
 
 abstract public class ReadyPanel extends JPanel {
     //MainFrame
@@ -16,7 +17,7 @@ abstract public class ReadyPanel extends JPanel {
     //NormalScoreModeReadyPanel Component
     JLabel NormalScoreModeBackGround = new JLabel();
     JScrollPane RankingScrollPane;
-    JLabel RankingTitle = new JLabel("순위");
+    JLabel RankingTitle = new JLabel();
     JButton GameStartButton = new JButton();
 
     //Server Data
@@ -29,9 +30,7 @@ abstract public class ReadyPanel extends JPanel {
         this.setPanel();
         this.setComponent();
     }
-    protected void getServerData(){
-
-    }
+    abstract protected void getServerData();
     private void setPanel(){
         this.setLayout(null);
     }
@@ -40,10 +39,10 @@ abstract public class ReadyPanel extends JPanel {
         RankingPanel.setLayout(new GridLayout(0, 1));
         RankingPanel.setSize(181, 300); //스크롤의 넓이가 19
         for(int i = 0; i < 100; i++) {
-            JLabel rankingLabel = new JLabel(rank[i]);
+            JLabel rankingLabel = new JLabel((i + 1) + ((i > 8)?"":"  ") + ((i == 99)?"":"  ") + "   " + rank[i]);
             rankingLabel.setSize(200,30);
-            rankingLabel.setIcon(new RankingLabel("img/select/GameStartBtn.png"));
-            rankingLabel.setIconTextGap(-100);
+            rankingLabel.setIcon(new RankingLabel("img/ready/rankingBackground.png"));
+            rankingLabel.setIconTextGap(-170);
             RankingPanel.add(rankingLabel);
         }
         RankingScrollPane = new JScrollPane(RankingPanel, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
@@ -51,18 +50,20 @@ abstract public class ReadyPanel extends JPanel {
         this.add(RankingScrollPane);
 
         RankingTitle.setBounds(100, 70, 200, 30);
-        RankingTitle.setIcon(new RankingLabel("img/select/GameStartBtn.png"));
-        RankingTitle.setIconTextGap(-100);
+        RankingTitle.setIcon(new RankingLabel("img/ready/rankingTitle.png"));
         this.add(RankingTitle);
 
         GameStartButton.setBounds(650, 380, 150, 40);
-        GameStartButton.setIcon(new ModeSelectButtonImage("img/select/GameStartBtn.png"));
+        GameStartButton.setIcon(new ModeSelectButtonImage("img/ready/GameStartButton.png"));
         GameStartButton.setContentAreaFilled(false);
         GameStartButton.setBorderPainted(false);
+        GameStartButton.addMouseListener(setMouseListener());
+
         this.add(GameStartButton);
 
-        NormalScoreModeBackGround.setIcon(new Background("img/select/selectBg.png"));
+        NormalScoreModeBackGround.setIcon(new Background("img/ready/readyBackground.png"));
         NormalScoreModeBackGround.setBounds(0, 0, 900, 500);
         this.add(NormalScoreModeBackGround);
     }
+    abstract protected MouseListener setMouseListener();
 }

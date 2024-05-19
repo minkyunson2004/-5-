@@ -45,7 +45,7 @@ public class IntroPanel extends JPanel {
         this.setLayout(null);
     }
     private void setComponent(){
-        introPanelBackGround.setIcon(new Background("img/intro/intro.png"));
+        introPanelBackGround.setIcon(new Background("img/intro/introBackground.png"));
         introPanelBackGround.setBounds(0, 0, 900, 500);
         this.add(introPanelBackGround);
         this.addMouseListener(introPanelMouseListener);

@@ -22,6 +22,7 @@ public class MainFrame extends JFrame {
     HardScoreModeReadyPanel hardScoreModeReadyPanel = new HardScoreModeReadyPanel(this);
     SpeedModeReadyPanel speedModeReadyPanel = new SpeedModeReadyPanel(this);
     EnduringModeReadyPanel enduringModeReadyPanel = new EnduringModeReadyPanel(this);
+    //public GamePanel gamePanel = new GamePanel(this, this.getLayout());
 
     //MainFrame initializing method
     public MainFrame() {
@@ -43,6 +44,7 @@ public class MainFrame extends JFrame {
         this.add(hardScoreModeReadyPanel, "HardScoreModeReadyPanel");
         this.add(speedModeReadyPanel, "SpeedModeReadyPanel");
         this.add(enduringModeReadyPanel, "EnduringModeReadyPanel");
+        //this.add(gamePanel, "GamePanel");
     }
 }
 

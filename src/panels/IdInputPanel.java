@@ -33,7 +33,7 @@ public class IdInputPanel extends JPanel{
         idInputButton.addMouseListener(new IdInputButtonMouseListener());
         this.add(idInputButton);
 
-        idInputPanelBackGround.setIcon(new Background("img/select/selectBg.png"));
+        idInputPanelBackGround.setIcon(new Background("img/idInput/idInputBackground.png"));
         idInputPanelBackGround.setBounds(0, 0, 900, 500);
         this.add(idInputPanelBackGround);
     }
