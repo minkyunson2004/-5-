@@ -1,4 +1,4 @@
-package panels.game.HardScoreGame;
+package panels.game.EnduringGame;
 
 import frame.MainFrame;
 
@@ -13,7 +13,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
-public class HardScoreEndPanel extends JPanel {
+public class EnduringEndPanel extends JPanel {
     MainFrame superFrame;
     ImageIcon btn = new ImageIcon("img/end/button.png");
     JButton btnNewButton;
@@ -28,7 +28,7 @@ public class HardScoreEndPanel extends JPanel {
         lblNewLabel_2.setText(resultScore+"");
     }
 
-    public HardScoreEndPanel(MainFrame superFrame) {
+    public EnduringEndPanel(MainFrame superFrame) {
         this.setLayout(null);
         this.superFrame = superFrame;
         //¹öÆ°
@@ -37,11 +37,10 @@ public class HardScoreEndPanel extends JPanel {
         btnNewButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
-                superFrame.remove(superFrame.getHardScoreGamePanel());
-                superFrame.setHardScoreGamePanel(new HardScoreGamePanel(superFrame));
-                superFrame.add(superFrame.getHardScoreGamePanel(), "HardScoreGamePanel"); // 게임패널을 새 패널로 교체
-                superFrame.getHardScoreGamePanel().setLayout(null);
-                sendDataToServer(resultScore);
+                superFrame.remove(superFrame.getEnduringGamePanel());
+                superFrame.setEnduringGamePanel(new EnduringGamePanel(superFrame));
+                superFrame.add(superFrame.getEnduringGamePanel(), "EnduringGamePanel"); // 게임패널을 새 패널로 교체
+                superFrame.getEnduringGamePanel().setLayout(null);
 
                 superFrame.getLayout().show(superFrame.getContentPane(), "GameModeSelectPanel"); // 새 select패널을 카드레이아웃 최상단으로 이동 (화면에 보임)
                 superFrame.getGameModeSelectPanel().requestFocus(); // 리스너를 select패널에 강제로 줌
@@ -72,9 +71,5 @@ public class HardScoreEndPanel extends JPanel {
         lblNewLabel.setIcon(new ImageIcon("img/end/cookierunbg.jpg"));
         lblNewLabel.setBounds(0, 0, 784, 461);
         add(lblNewLabel);
-    }
-
-    private void sendDataToServer(int score){
-
     }
 }

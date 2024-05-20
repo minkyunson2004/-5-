@@ -1,4 +1,4 @@
-package panels.game.HardScoreGame;
+package panels.game.NormalScoreGame;
 
 import frame.MainFrame;
 
@@ -13,7 +13,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
-public class HardScoreEndPanel extends JPanel {
+public class NormalScoreEndPanel extends JPanel {
     MainFrame superFrame;
     ImageIcon btn = new ImageIcon("img/end/button.png");
     JButton btnNewButton;
@@ -21,14 +21,13 @@ public class HardScoreEndPanel extends JPanel {
     JLabel lblNewLabel_2;
     JLabel lblNewLabel;
 
-
     private int resultScore;
 
     public void setResultScore(int resultScore) {
         lblNewLabel_2.setText(resultScore+"");
     }
 
-    public HardScoreEndPanel(MainFrame superFrame) {
+    public NormalScoreEndPanel(MainFrame superFrame) {
         this.setLayout(null);
         this.superFrame = superFrame;
         //¹öÆ°
@@ -37,10 +36,10 @@ public class HardScoreEndPanel extends JPanel {
         btnNewButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
-                superFrame.remove(superFrame.getHardScoreGamePanel());
-                superFrame.setHardScoreGamePanel(new HardScoreGamePanel(superFrame));
-                superFrame.add(superFrame.getHardScoreGamePanel(), "HardScoreGamePanel"); // 게임패널을 새 패널로 교체
-                superFrame.getHardScoreGamePanel().setLayout(null);
+                superFrame.remove(superFrame.getNormalScoreGamePanel());
+                superFrame.setNormalScoreGamePanel(new NormalScoreGamePanel(superFrame));
+                superFrame.add(superFrame.getNormalScoreGamePanel(), "NormalScoreGamePanel"); // 게임패널을 새 패널로 교체
+                superFrame.getNormalScoreGamePanel().setLayout(null);
                 sendDataToServer(resultScore);
 
                 superFrame.getLayout().show(superFrame.getContentPane(), "GameModeSelectPanel"); // 새 select패널을 카드레이아웃 최상단으로 이동 (화면에 보임)
