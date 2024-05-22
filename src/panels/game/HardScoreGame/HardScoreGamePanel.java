@@ -153,7 +153,7 @@ public class HardScoreGamePanel extends JPanel {
 
         // 일시정지 버튼
         escButton = new JButton("back");
-        escButton.setBounds(350, 200, 100, 30);
+        escButton.setBounds(400, 235, 100, 30);
         escButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -323,7 +323,7 @@ public class HardScoreGamePanel extends JPanel {
 
             buffg.setColor(Color.BLACK);
 
-            buffg.fillRect(0, 0, 850, 550);
+            buffg.fillRect(0, 0, 900, 500);
 
             // alpha값을 되돌린다
             alphaComposite = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, (float) 255 / 255);
@@ -677,7 +677,7 @@ public class HardScoreGamePanel extends JPanel {
             public void run() {
                 while (true) {
 
-                    if (runPage > 800) { // 800픽셀 이동 마다 체력이 10씩 감소한다 (추후 맵길이에 �上 감소량 조절)
+                    if (runPage > 800) { // 800픽셀 이동 마다 체력이 10씩 감소한다 (추후 맵길이에 감소량 조절)
                         c1.setHealth((int)c1.getHealth() - 10);
                         runPage = 0;
                     }
@@ -1081,7 +1081,7 @@ public class HardScoreGamePanel extends JPanel {
                         c1.setFall(true); // 떨어지는 중으로 전환
                         System.out.println("낙하");
 
-                        if (c1.getCountJump() == 2) { // 더블점프가 끝났을 경우 낙하 이미지로 변경
+                        if (c1.getCountJump() > 1) { // 더블점프가 끝났을 경우 낙하 이미지로 변경
                             c1.setImage(fallIc.getImage());
                         }
 

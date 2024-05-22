@@ -153,7 +153,7 @@ public class EnduringGamePanel extends JPanel {
 
         // 일시정지 버튼
         escButton = new JButton("back");
-        escButton.setBounds(350, 200, 100, 30);
+        escButton.setBounds(400, 235, 100, 30);
         escButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -323,7 +323,7 @@ public class EnduringGamePanel extends JPanel {
 
             buffg.setColor(Color.BLACK);
 
-            buffg.fillRect(0, 0, 850, 550);
+            buffg.fillRect(0, 0, 900, 500);
 
             // alpha값을 되돌린다
             alphaComposite = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, (float) 255 / 255);
