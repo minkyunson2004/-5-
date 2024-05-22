@@ -41,6 +41,12 @@ public class GameModeSelectPanel extends JPanel {
                     e1.printStackTrace();
                 }
                 superFrame.getLayout().show(superFrame.getContentPane(), mode + "ModeReadyPanel"); //gameReadyPanel 을 카드레이아웃 최상단으로 변경
+
+                if(mode.equals("NormalScore")) superFrame.getNormalScoreModeReadyPanel().setFocusable(true);
+                else if(mode.equals("HardScore")) superFrame.getHardScoreModeReadyPanel().setFocusable(true);
+                else if(mode.equals("Speed")) superFrame.getSpeedModeReadyPanel().setFocusable(true);
+                else if(mode.equals("Enduring")) superFrame.getEnduringModeReadyPanel().setFocusable(true);
+
                 superFrame.setVisible(true);
             }
         }
