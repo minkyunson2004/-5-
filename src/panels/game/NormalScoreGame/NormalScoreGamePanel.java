@@ -18,7 +18,6 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import frame.MainFrame;
-import image.Background;
 import image.GameBackground;
 import ingame.Back;
 import ingame.Cookie;

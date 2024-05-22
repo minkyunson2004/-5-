@@ -273,8 +273,14 @@ public class HardScoreGamePanel extends JPanel {
             g2.setComposite(alphaComposite);
 
             // 쿠키를 그린다
-            buffg.drawImage(c1.getImage(), c1.getX() - 110, c1.getY() - 170,
-                    cookieIc.getImage().getWidth(null) * 8 / 10, cookieIc.getImage().getHeight(null) * 8 / 10, null);
+            if(c1.getImage() == hitIc.getImage()) {
+                buffg.drawImage(c1.getImage(), c1.getX() - 50, c1.getY() - 20,
+                        cookieIc.getImage().getWidth(null) * 4 / 10, cookieIc.getImage().getHeight(null) * 4 / 10, null);
+            }
+            else {
+                buffg.drawImage(c1.getImage(), c1.getX() - 110, c1.getY() - 170,
+                        cookieIc.getImage().getWidth(null) * 8 / 10, cookieIc.getImage().getHeight(null) * 8 / 10, null);
+            }
 
             // alpha값을 되돌린다
             alphaComposite = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, (float) 255 / 255);
