@@ -18,6 +18,7 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import frame.MainFrame;
+import image.GameBackground;
 import ingame.Back;
 import ingame.Cookie;
 import ingame.CookieImg;
@@ -338,7 +339,7 @@ public class HardScoreGamePanel extends JPanel {
     // 맵 오브젝트 이미지들을 저장
     private void makeMo() {
 
-        mo1 = new MapObjectImg(new ImageIcon("img/Objectimg/map1img/bg1.png"),
+        mo1 = new MapObjectImg(new GameBackground("img/Objectimg/map1img/bg1.png"),
                 new ImageIcon("img/Objectimg/map1img/bg2.png"), new ImageIcon("img/Objectimg/map1img/jelly1.png"),
                 new ImageIcon("img/Objectimg/map1img/jelly2.png"), new ImageIcon("img/Objectimg/map1img/jelly3.png"),
                 new ImageIcon("img/Objectimg/map1img/life.png"), new ImageIcon("img/Objectimg/map1img/effectTest.png"),
@@ -347,7 +348,7 @@ public class HardScoreGamePanel extends JPanel {
                 new ImageIcon("img/Objectimg/map1img/tacle2.png"), new ImageIcon("img/Objectimg/map1img/tacle3.png"),
                 new ImageIcon("img/Objectimg/map1img/tacle3.png"));
 
-        mo2 = new MapObjectImg(new ImageIcon("img/Objectimg/map2img/back1.png"),
+        mo2 = new MapObjectImg(new GameBackground("img/Objectimg/map2img/back1.png"),
                 new ImageIcon("img/Objectimg/map2img/back2.png"), new ImageIcon("img/Objectimg/map1img/jelly1.png"),
                 new ImageIcon("img/Objectimg/map1img/jelly2.png"), new ImageIcon("img/Objectimg/map1img/jelly3.png"),
                 new ImageIcon("img/Objectimg/map1img/life.png"), new ImageIcon("img/Objectimg/map1img/effectTest.png"),
@@ -355,7 +356,7 @@ public class HardScoreGamePanel extends JPanel {
                 new ImageIcon("img/Objectimg/map2img/tacle1.png"), new ImageIcon("img/Objectimg/map2img/tacle2.png"),
                 new ImageIcon("img/Objectimg/map2img/tacle3.png"), new ImageIcon("img/Objectimg/map2img/tacle3.png"));
 
-        mo3 = new MapObjectImg(new ImageIcon("img/Objectimg/map3img/bg.png"),
+        mo3 = new MapObjectImg(new GameBackground("img/Objectimg/map3img/bg.png"),
                 new ImageIcon("img/Objectimg/map3img/bg2.png"), new ImageIcon("img/Objectimg/map1img/jelly1.png"),
                 new ImageIcon("img/Objectimg/map1img/jelly2.png"), new ImageIcon("img/Objectimg/map1img/jelly3.png"),
                 new ImageIcon("img/Objectimg/map1img/life.png"), new ImageIcon("img/Objectimg/map1img/effectTest.png"),
@@ -363,7 +364,7 @@ public class HardScoreGamePanel extends JPanel {
                 new ImageIcon("img/Objectimg/map3img/tacle1.png"), new ImageIcon("img/Objectimg/map3img/tacle2.png"),
                 new ImageIcon("img/Objectimg/map3img/tacle3.png"), new ImageIcon("img/Objectimg/map3img/tacle3.png"));
 
-        mo4 = new MapObjectImg(new ImageIcon("img/Objectimg/map4img/bback.png"),
+        mo4 = new MapObjectImg(new GameBackground("img/Objectimg/map4img/bback.png"),
                 new ImageIcon("img/Objectimg/map4img/bback2.png"), new ImageIcon("img/Objectimg/map1img/jelly1.png"),
                 new ImageIcon("img/Objectimg/map1img/jelly2.png"), new ImageIcon("img/Objectimg/map1img/jelly3.png"),
                 new ImageIcon("img/Objectimg/map1img/life.png"), new ImageIcon("img/Objectimg/map1img/effectTest.png"),
