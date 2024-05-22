@@ -462,7 +462,7 @@ public class NormalScoreGamePanel extends JPanel {
             for (int j = 0; j < maxY; j += 2) {
                 if (colorArr[i][j] == 0) { // 색값이 0 일경우 (검은색)
                     // 좌표에 40을 곱하고, 넓이와 높이는 80으로 한다.
-                    fieldList.add(new Field(field1Ic.getImage(), i * 40 + mapLength * 40, j * 40, 80, 80));
+                    fieldList.add(new Field(field1Ic.getImage(), i * 40 + mapLength * 40, j * 40, 80, 100));
 
                 } else if (colorArr[i][j] == 6579300) { // 색값이 6579300 일경우 (회색)
                     // 좌표에 40을 곱하고, 넓이와 높이는 80으로 한다.
