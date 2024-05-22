@@ -1,6 +1,7 @@
 package panels.game.NormalScoreGame;
 
 import frame.MainFrame;
+import image.Background;
 
 import java.awt.Font;
 import java.awt.SystemColor;
@@ -56,20 +57,20 @@ public class NormalScoreEndPanel extends JPanel {
         lblNewLabel_1 = new JLabel("SCORE");
         lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
         lblNewLabel_1.setFont(new Font("Gill Sans Ultra Bold", Font.PLAIN, 37));
-        lblNewLabel_1.setBounds(451, 0, 205, 55);
+        lblNewLabel_1.setBounds(625, 10, 205, 55);
         add(lblNewLabel_1);
 
         lblNewLabel_2 = new JLabel("0");
         lblNewLabel_2.setHorizontalAlignment(SwingConstants.CENTER);
         lblNewLabel_2.setFont(new Font("Harlow Solid Italic", Font.PLAIN, 49));
-        lblNewLabel_2.setBounds(313, 52, 459, 87);
+        lblNewLabel_2.setBounds(500, 60, 459, 87);
         add(lblNewLabel_2);
 
         lblNewLabel = new JLabel("");
         lblNewLabel.setHorizontalAlignment(SwingConstants.RIGHT);
         lblNewLabel.setBackground(SystemColor.activeCaptionText);
-        lblNewLabel.setIcon(new ImageIcon("img/end/cookierunbg.jpg"));
-        lblNewLabel.setBounds(0, 0, 784, 461);
+        lblNewLabel.setIcon(new Background("img/end/cookierunbg.jpg"));
+        lblNewLabel.setBounds(0, 0, 900, 500);
         add(lblNewLabel);
     }
 

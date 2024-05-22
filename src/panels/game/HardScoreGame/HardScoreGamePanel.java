@@ -1177,7 +1177,7 @@ public class HardScoreGamePanel extends JPanel {
                     System.out.println("점프");
                     c1.setImage(jumpIc.getImage());
 
-                } else if (c1.getCountJump() == 2) { // 점프 횟수가 2라면
+                } else if (c1.getCountJump() < 10) { // 점프 횟수가 2라면
 
                     System.out.println("더블점프");
                     c1.setImage(doubleJumpIc.getImage());
