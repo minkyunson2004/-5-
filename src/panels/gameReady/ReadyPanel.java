@@ -8,6 +8,8 @@ import image.ModeSelectButtonImage;
 import image.RankingLabel;
 
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 abstract public class ReadyPanel extends JPanel {
@@ -18,6 +20,7 @@ abstract public class ReadyPanel extends JPanel {
     JLabel NormalScoreModeBackGround = new JLabel();
     JScrollPane RankingScrollPane;
     JLabel RankingTitle = new JLabel();
+    JButton rollBackButton = new JButton();
     JButton GameStartButton = new JButton();
 
     //Server Data
@@ -52,6 +55,22 @@ abstract public class ReadyPanel extends JPanel {
         RankingTitle.setBounds(100, 70, 200, 30);
         RankingTitle.setIcon(new RankingLabel("img/ready/rankingTitle.png"));
         this.add(RankingTitle);
+
+        rollBackButton.setBounds(0, 0, 100, 100);
+        rollBackButton.setText("뒤로가기");
+        rollBackButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                try {
+                    Thread.sleep(300);
+                } catch (InterruptedException e1) {
+                    e1.printStackTrace();
+                }
+                superFrame.getLayout().show(superFrame.getContentPane(), "GameModeSelectPanel");
+                superFrame.setVisible(true);
+            }
+        });
+        this.add(rollBackButton);
 
         GameStartButton.setBounds(650, 380, 150, 40);
         GameStartButton.setIcon(new ModeSelectButtonImage("img/ready/GameStartButton.png"));

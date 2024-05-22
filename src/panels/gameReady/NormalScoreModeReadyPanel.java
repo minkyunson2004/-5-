@@ -11,7 +11,7 @@ import java.awt.event.MouseListener;
 public class NormalScoreModeReadyPanel extends ReadyPanel{
     public NormalScoreModeReadyPanel(MainFrame superFrame) {
         super(superFrame);
-        super.RankingTitle.setText("Normal Score Mode 랭킹");
+        super.RankingTitle.setText("Normal Score Mode 순위");
         super.RankingTitle.setIconTextGap(-164);
     }
     @Override
