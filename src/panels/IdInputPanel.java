@@ -12,7 +12,7 @@ public class IdInputPanel extends JPanel{
     MainFrame superFrame;
 
     //IdInputPanel Component
-    JTextField idInputField = new JTextField("id를 입력하세요.", 20);
+    JTextField idInputField = new JTextField("10 글자 이하의 유저이름을 입력하시오.", 20);
     JButton idInputButton = new JButton("확인");
     JLabel idInputPanelBackGround = new JLabel();
 
@@ -38,7 +38,7 @@ public class IdInputPanel extends JPanel{
         this.add(idInputPanelBackGround);
     }
 
-    class IdInputButtonMouseListener implements MouseListener {
+    class IdInputButtonMouseListener extends MouseAdapter {
         @Override
         public void mouseClicked(MouseEvent e) {
             try {
@@ -47,16 +47,14 @@ public class IdInputPanel extends JPanel{
                 e1.printStackTrace();
             }
             Main.userName = idInputField.getText();
+            //유저이름의 길이를 10글자로 고정
+            if(Main.userName.length() < 10) {
+                for(int i = 0; i < 10 - Main.userName.length(); i++) Main.userName += " ";
+            }
+            else Main.userName = Main.userName.substring(0, 10);
+
             superFrame.getLayout().show(superFrame.getContentPane(), "GameModeSelectPanel"); //gameModeSelect 패널을 카드레이아웃 최상단으로 변경
             superFrame.setVisible(true);
         }
-        @Override
-        public void mousePressed(MouseEvent e) { }
-        @Override
-        public void mouseReleased(MouseEvent e) { }
-        @Override
-        public void mouseEntered(MouseEvent e) { }
-        @Override
-        public void mouseExited(MouseEvent e) { }
     }
 }
