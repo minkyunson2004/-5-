@@ -1179,16 +1179,14 @@ public class HardScoreGamePanel extends JPanel {
 
                 c1.setJump(true); // 점프중으로 변경
 
+                String[] jumpOutputMessage = {"더블", "트리플", "쿼드러플", "퀸튜플", "헥사튜플", "셉튜플", "옥튜플", "노뉴풀", "데큐퓰"};
                 if (c1.getCountJump() == 1) { // 점프 횟수가 1이라면
-
                     System.out.println("점프");
                     c1.setImage(jumpIc.getImage());
-
-                } else if (c1.getCountJump() < 10) { // 점프 횟수가 2라면
-
-                    System.out.println("더블점프");
+                }
+                else if (c1.getCountJump() < 10) { // 점프 횟수가 2라면
+                    System.out.println(jumpOutputMessage[c1.getCountJump() - 2] + "점프");
                     c1.setImage(doubleJumpIc.getImage());
-
                 }
 
                 long t1 = Util.getTime(); // 현재시간을 가져온다
