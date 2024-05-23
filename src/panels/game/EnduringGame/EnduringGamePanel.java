@@ -314,7 +314,7 @@ public class EnduringGamePanel extends JPanel {
 
         // 버튼을 그린다
         buffg.drawImage(jumpBtn, 0, 360, 132, 100, null);
-        buffg.drawImage(slideBtn, 650, 360, 132, 100, null);
+        buffg.drawImage(slideBtn, 768, 360, 132, 100, null);
 
         if (escKeyOn) { // esc키를 누를경우 화면을 흐리게 만든다
 
