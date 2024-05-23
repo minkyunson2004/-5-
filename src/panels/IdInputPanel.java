@@ -49,7 +49,8 @@ public class IdInputPanel extends JPanel{
             Main.userName = idInputField.getText();
             //유저이름의 길이를 10글자로 고정
             if(Main.userName.length() < 10) {
-                for(int i = 0; i < 10 - Main.userName.length(); i++) Main.userName += " ";
+                int insufficientNumberOfCharacters = 10 - Main.userName.length();
+                for(int i = 0; i < insufficientNumberOfCharacters; i++) Main.userName += " ";
             }
             else Main.userName = Main.userName.substring(0, 10);
 
