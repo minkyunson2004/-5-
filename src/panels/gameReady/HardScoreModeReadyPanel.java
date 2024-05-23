@@ -24,7 +24,7 @@ public class HardScoreModeReadyPanel extends ReadyPanel{
     protected MouseListener setMouseListener(){
         return new MouseAdapter() {
             @Override
-            public void mouseEntered(MouseEvent e) {
+            public void mouseClicked(MouseEvent e) {
                 try {
                     Thread.sleep(300);
                 } catch (InterruptedException e1) {
