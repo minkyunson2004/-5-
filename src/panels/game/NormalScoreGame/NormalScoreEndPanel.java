@@ -47,7 +47,7 @@ public class NormalScoreEndPanel extends JPanel {
                 superFrame.getGameModeSelectPanel().requestFocus(); // 리스너를 select패널에 강제로 줌
             }
         });
-        btnNewButton.setBounds(550, 370, 199, 81);
+        btnNewButton.setBounds(630, 370, 199, 81);
         btnNewButton.setBorderPainted(false);
         btnNewButton.setFocusPainted(false);
         btnNewButton.setContentAreaFilled(false);
