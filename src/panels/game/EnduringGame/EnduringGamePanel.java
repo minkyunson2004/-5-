@@ -339,39 +339,37 @@ public class EnduringGamePanel extends JPanel {
     // 맵 오브젝트 이미지들을 저장
     private void makeMo() {
 
-        mo1 = new MapObjectImg(new GameBackground("img/Objectimg/map1img/bg1.png"),
-                new ImageIcon("img/Objectimg/map1img/bg2.png"), new ImageIcon("img/Objectimg/map1img/jelly1.png"),
-                new ImageIcon("img/Objectimg/map1img/jelly2.png"), new ImageIcon("img/Objectimg/map1img/jelly3.png"),
-                new ImageIcon("img/Objectimg/map1img/life.png"), new ImageIcon("img/Objectimg/map1img/effectTest.png"),
-                new ImageIcon("img/Objectimg/map1img/fieldIc1.png"),
-                new ImageIcon("img/Objectimg/map1img/fieldIc2.png"), new ImageIcon("img/Objectimg/map1img/tacle1.gif"),
-                new ImageIcon("img/Objectimg/map1img/tacle2.png"), new ImageIcon("img/Objectimg/map1img/tacle3.png"),
-                new ImageIcon("img/Objectimg/map1img/tacle3.png"));
+        mo1 = new MapObjectImg(new GameBackground("img/game/Enduring/map1img/bg1.png"), new ImageIcon("img/game/Enduring/map1img/bg2.png"),
+                new ImageIcon("img/game/Common/jelly/jelly1.png"), new ImageIcon("img/game/Common/jelly/jelly2.png"),
+                new ImageIcon("img/game/Common/jelly/jelly3.png"), new ImageIcon("img/game/Common/jelly/life.png"),
+                new ImageIcon("img/game/Common/effectTest.png"),
+                new ImageIcon("img/game/Enduring/map1img/fieldIc1.png"), new ImageIcon("img/game/Enduring/map1img/fieldIc2.png"),
+                new ImageIcon("img/game/Enduring/map1img/tacle1.gif"), new ImageIcon("img/game/Enduring/map1img/tacle2.png"),
+                new ImageIcon("img/game/Enduring/map1img/tacle3.png"), new ImageIcon("img/game/Enduring/map1img/tacle3.png"));
 
-        mo2 = new MapObjectImg(new GameBackground("img/Objectimg/map2img/back1.png"),
-                new ImageIcon("img/Objectimg/map2img/back2.png"), new ImageIcon("img/Objectimg/map1img/jelly1.png"),
-                new ImageIcon("img/Objectimg/map1img/jelly2.png"), new ImageIcon("img/Objectimg/map1img/jelly3.png"),
-                new ImageIcon("img/Objectimg/map1img/life.png"), new ImageIcon("img/Objectimg/map1img/effectTest.png"),
-                new ImageIcon("img/Objectimg/map2img/field1.png"), new ImageIcon("img/Objectimg/map2img/field2.png"),
-                new ImageIcon("img/Objectimg/map2img/tacle1.png"), new ImageIcon("img/Objectimg/map2img/tacle2.png"),
-                new ImageIcon("img/Objectimg/map2img/tacle3.png"), new ImageIcon("img/Objectimg/map2img/tacle3.png"));
+        mo2 = new MapObjectImg(new GameBackground("img/game/Enduring/map2img/back1.png"), new ImageIcon("img/game/Enduring/map2img/back2.png"),
+                new ImageIcon("img/game/Common/jelly/jelly1.png"), new ImageIcon("img/game/Common/jelly/jelly2.png"),
+                new ImageIcon("img/game/Common/jelly/jelly3.png"), new ImageIcon("img/game/Common/jelly/life.png"),
+                new ImageIcon("img/game/Common/effectTest.png"),
+                new ImageIcon("img/game/Enduring/map2img/field1.png"), new ImageIcon("img/game/Enduring/map2img/field2.png"),
+                new ImageIcon("img/game/Enduring/map2img/tacle1.png"), new ImageIcon("img/game/Enduring/map2img/tacle2.png"),
+                new ImageIcon("img/game/Enduring/map2img/tacle3.png"), new ImageIcon("img/game/Enduring/map2img/tacle3.png"));
 
-        mo3 = new MapObjectImg(new GameBackground("img/Objectimg/map3img/bg.png"),
-                new ImageIcon("img/Objectimg/map3img/bg2.png"), new ImageIcon("img/Objectimg/map1img/jelly1.png"),
-                new ImageIcon("img/Objectimg/map1img/jelly2.png"), new ImageIcon("img/Objectimg/map1img/jelly3.png"),
-                new ImageIcon("img/Objectimg/map1img/life.png"), new ImageIcon("img/Objectimg/map1img/effectTest.png"),
-                new ImageIcon("img/Objectimg/map3img/field.png"), new ImageIcon("img/Objectimg/map3img/field2.png"),
-                new ImageIcon("img/Objectimg/map3img/tacle1.png"), new ImageIcon("img/Objectimg/map3img/tacle2.png"),
-                new ImageIcon("img/Objectimg/map3img/tacle3.png"), new ImageIcon("img/Objectimg/map3img/tacle3.png"));
+        mo3 = new MapObjectImg(new GameBackground("img/game/Enduring/map3img/bg.png"), new ImageIcon("img/game/Enduring/map3img/bg2.png"),
+                new ImageIcon("img/game/Common/jelly/jelly1.png"), new ImageIcon("img/game/Common/jelly/jelly2.png"),
+                new ImageIcon("img/game/Common/jelly/jelly3.png"), new ImageIcon("img/game/Common/jelly/life.png"),
+                new ImageIcon("img/game/Common/effectTest.png"),
+                new ImageIcon("img/game/Enduring/map3img/field.png"), new ImageIcon("img/game/Enduring/map3img/field2.png"),
+                new ImageIcon("img/game/Enduring/map3img/tacle1.png"), new ImageIcon("img/game/Enduring/map3img/tacle2.png"),
+                new ImageIcon("img/game/Enduring/map3img/tacle3.png"), new ImageIcon("img/game/Enduring/map3img/tacle3.png"));
 
-        mo4 = new MapObjectImg(new GameBackground("img/Objectimg/map4img/bback.png"),
-                new ImageIcon("img/Objectimg/map4img/bback2.png"), new ImageIcon("img/Objectimg/map1img/jelly1.png"),
-                new ImageIcon("img/Objectimg/map1img/jelly2.png"), new ImageIcon("img/Objectimg/map1img/jelly3.png"),
-                new ImageIcon("img/Objectimg/map1img/life.png"), new ImageIcon("img/Objectimg/map1img/effectTest.png"),
-                new ImageIcon("img/Objectimg/map4img/ffootTest.png"),
-                new ImageIcon("img/Objectimg/map4img/ffootTest2.png"),
-                new ImageIcon("img/Objectimg/map4img/tacle1.png"), new ImageIcon("img/Objectimg/map4img/tacle2.png"),
-                new ImageIcon("img/Objectimg/map4img/tacle2.png"), new ImageIcon("img/Objectimg/map4img/tacle2.png"));
+        mo4 = new MapObjectImg(new GameBackground("img/game/Enduring/map4img/bback.png"), new ImageIcon("img/game/Enduring/bback2.png"),
+                new ImageIcon("img/game/Common/jelly/jelly1.png"), new ImageIcon("img/game/Common/jelly/jelly2.png"),
+                new ImageIcon("img/game/Common/jelly/jelly3.png"), new ImageIcon("img/game/Common/jelly/life.png"),
+                new ImageIcon("img/game/Common/effectTest.png"),
+                new ImageIcon("img/game/Enduring/map4img/ffootTest.png"), new ImageIcon("img/game/Enduring/map4img/ffootTest2.png"),
+                new ImageIcon("img/game/Enduring/map4img/tacle1.png"), new ImageIcon("img/game/Enduring/map4img/tacle2.png"),
+                new ImageIcon("img/game/Enduring/map4img/tacle2.png"), new ImageIcon("img/game/Enduring/map4img/tacle2.png"));
 
     }
 
@@ -415,13 +413,13 @@ public class EnduringGamePanel extends JPanel {
         int tempMapLength = 0;
 
         if (num == 1) {
-            tempMap = "img/map/map1.png";
+            tempMap = "img/game/Enduring/map1.png";
         } else if (num == 2) {
-            tempMap = "img/map/map2.png";
+            tempMap = "img/game/Enduring/map2.png";
         } else if (num == 3) {
-            tempMap = "img/map/map3.png";
+            tempMap = "img/game/Enduring/map3.png";
         } else if (num == 4) {
-            tempMap = "img/map/map4.png";
+            tempMap = "img/game/Enduring/map4.png";
         }
 
         // 맵 정보 불러오기
@@ -494,18 +492,18 @@ public class EnduringGamePanel extends JPanel {
     private void initObject() {
 
         // 생명게이지 이미지아이콘
-        lifeBar = new ImageIcon("img/Objectimg/lifebar/lifeBar1.png");
+        lifeBar = new ImageIcon("img/game/Common/lifebar/lifeBar1.png");
 
         // 피격 붉은 이미지
-        redBg = new ImageIcon("img/Objectimg/lifebar/redBg.png");
+        redBg = new ImageIcon("img/game/Common/lifebar/redBg.png");
 
         // 점프버튼
-        jumpButtonIconUp = new ImageIcon("img/Objectimg/lifebar/jumpno.png");
-        jumpButtonIconDown = new ImageIcon("img/Objectimg/lifebar/jumpdim.png");
+        jumpButtonIconUp = new ImageIcon("img/game/Common/lifebar/jumpno.png");
+        jumpButtonIconDown = new ImageIcon("img/game/Common/lifebar/jumpdim.png");
 
         // 슬라이드 버튼
-        slideIconUp = new ImageIcon("img/Objectimg/lifebar/slideno.png");
-        slideIconDown = new ImageIcon("img/Objectimg/lifebar/slidedim.png");
+        slideIconUp = new ImageIcon("img/game/Common/lifebar/slideno.png");
+        slideIconDown = new ImageIcon("img/game/Common/lifebar/slidedim.png");
 
         jumpBtn = jumpButtonIconUp.getImage();
         slideBtn = slideIconUp.getImage();
