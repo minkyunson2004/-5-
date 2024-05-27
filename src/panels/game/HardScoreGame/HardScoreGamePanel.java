@@ -229,7 +229,7 @@ public class HardScoreGamePanel extends JPanel {
             // 사양을 덜 잡아먹게 하기위한 조치
             if (tempFoot.getX() > -90 && tempFoot.getX() < 900) { // x값이 -90~810인 객체들만 그린다.
 
-                buffg.drawImage(tempFoot.getImage(), tempFoot.getX(), tempFoot.getY(), tempFoot.getWidth(),
+                buffg.drawImage(tempFoot.getImage(), tempFoot.getX(), tempFoot.getY() + 20, tempFoot.getWidth(),
                         tempFoot.getHeight(), null);
             }
 
@@ -246,7 +246,7 @@ public class HardScoreGamePanel extends JPanel {
                         (float) tempJelly.getAlpha() / 255);
                 g2.setComposite(alphaComposite); // 투명하게 하는방법 2
 
-                buffg.drawImage(tempJelly.getImage(), tempJelly.getX(), tempJelly.getY(), tempJelly.getWidth(),
+                buffg.drawImage(tempJelly.getImage(), tempJelly.getX(), tempJelly.getY() + 20, tempJelly.getWidth(),
                         tempJelly.getHeight(), null);
 
                 // alpha값을 되돌린다
@@ -262,7 +262,7 @@ public class HardScoreGamePanel extends JPanel {
 
             if (tempTacle.getX() > -90 && tempTacle.getX() < 900) {
 
-                buffg.drawImage(tempTacle.getImage(), tempTacle.getX(), tempTacle.getY(), tempTacle.getWidth(),
+                buffg.drawImage(tempTacle.getImage(), tempTacle.getX(), tempTacle.getY() + 20, tempTacle.getWidth(),
                         tempTacle.getHeight(), null);
             }
         }
@@ -274,11 +274,11 @@ public class HardScoreGamePanel extends JPanel {
 
             // 쿠키를 그린다
             if(c1.getImage() == hitIc.getImage()) {
-                buffg.drawImage(c1.getImage(), c1.getX() - 50, c1.getY() - 20,
+                buffg.drawImage(c1.getImage(), c1.getX() - 50, c1.getY(),
                         cookieIc.getImage().getWidth(null) * 4 / 10, cookieIc.getImage().getHeight(null) * 4 / 10, null);
             }
             else {
-                buffg.drawImage(c1.getImage(), c1.getX() - 110, c1.getY() - 170,
+                buffg.drawImage(c1.getImage(), c1.getX() - 110, c1.getY() - 150,
                         cookieIc.getImage().getWidth(null) * 8 / 10, cookieIc.getImage().getHeight(null) * 8 / 10, null);
             }
 
@@ -289,7 +289,7 @@ public class HardScoreGamePanel extends JPanel {
         } else { // 무적상태가 아닐 경우
 
             // 쿠키를 그린다
-            buffg.drawImage(c1.getImage(), c1.getX() - 110, c1.getY() - 170,
+            buffg.drawImage(c1.getImage(), c1.getX() - 110, c1.getY() - 150,
                     cookieIc.getImage().getWidth(null) * 8 / 10, cookieIc.getImage().getHeight(null) * 8 / 10, null);
         }
 
@@ -319,8 +319,8 @@ public class HardScoreGamePanel extends JPanel {
                 1 + 470 - (int) (470 * ((double) c1.getHealth() / 1000)), 21);
 
         // 버튼을 그린다
-        buffg.drawImage(jumpBtn, 0, 360, 132, 100, null);
-        buffg.drawImage(slideBtn, 768, 360, 132, 100, null);
+        buffg.drawImage(jumpBtn, 0, 380, 132, 100, null);
+        buffg.drawImage(slideBtn, 768, 380, 132, 100, null);
 
         if (escKeyOn) { // esc키를 누를경우 화면을 흐리게 만든다
 
@@ -465,7 +465,7 @@ public class HardScoreGamePanel extends JPanel {
             for (int j = 0; j < maxY; j += 2) {
                 if (colorArr[i][j] == 0) { // 색값이 0 일경우 (검은색)
                     // 좌표에 40을 곱하고, 넓이와 높이는 80으로 한다.
-                    fieldList.add(new Field(field1Ic.getImage(), i * 40 + mapLength * 40, j * 40, 80, 100));
+                    fieldList.add(new Field(field1Ic.getImage(), i * 40 + mapLength * 40, j * 40, 80, 80));
 
                 } else if (colorArr[i][j] == 6579300) { // 색값이 6579300 일경우 (회색)
                     // 좌표에 40을 곱하고, 넓이와 높이는 80으로 한다.
