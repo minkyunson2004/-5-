@@ -2,6 +2,7 @@ package panels.game.NormalScoreGame;
 
 import frame.MainFrame;
 import image.Background;
+import main.Main;
 
 import java.awt.Font;
 import java.awt.SystemColor;
@@ -25,6 +26,7 @@ public class NormalScoreEndPanel extends JPanel {
     private int resultScore;
 
     public void setResultScore(int resultScore) {
+        this.resultScore = resultScore;
         lblNewLabel_2.setText(resultScore+"");
     }
 
@@ -75,6 +77,6 @@ public class NormalScoreEndPanel extends JPanel {
     }
 
     private void sendDataToServer(int score){
-
+        Main.client.receiveNormalScoreModeScore(score);
     }
 }

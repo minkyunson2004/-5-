@@ -12,11 +12,11 @@ public class SpeedModeReadyPanel extends ReadyPanel{
     public SpeedModeReadyPanel(MainFrame superFrame) {
         super(superFrame);
         super.RankingTitle.setText("Speed Mode 순위");
-        super.RankingTitle.setIconTextGap(-140);
+        super.RankingTitle.setIconTextGap(-165);
     }
 
     @Override
-    protected void getServerData(){
+    public void getServerData(){
         for(int i = 0; i < 100; i++) {
             super.rank[i] = Integer.toString(i);
         }

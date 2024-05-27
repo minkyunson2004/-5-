@@ -2,6 +2,7 @@ package panels.gameReady;
 
 import frame.MainFrame;
 import ingame.CookieImg;
+import main.Main;
 
 import javax.swing.*;
 import java.awt.event.MouseAdapter;
@@ -12,12 +13,14 @@ public class NormalScoreModeReadyPanel extends ReadyPanel{
     public NormalScoreModeReadyPanel(MainFrame superFrame) {
         super(superFrame);
         super.RankingTitle.setText("Normal Score Mode 순위");
-        super.RankingTitle.setIconTextGap(-164);
+        super.RankingTitle.setIconTextGap(-189);
     }
     @Override
-    protected void getServerData(){
+    public void getServerData(){
+        String[] ranking = Main.client.getNormalScoreRank();
+        System.arraycopy(ranking, 0, super.rank, 0, ranking.length);
         for(int i = 0; i < 100; i++) {
-            super.rank[i] = Integer.toString(i);
+            RankingList[i].setText((i + 1) + ((i > 8)?"":"  ") + ((i == 99)?"":"  ") + "   " + rank[i]);
         }
     }
     @Override

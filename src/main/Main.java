@@ -2,14 +2,12 @@ package main;
 
 import javax.swing.*;
 
+import client.Client;
 import frame.MainFrame;
 
 public class Main {
-    static public String userName;
-
-    static {
-        userName = "";
-    }
+    static public Client client = new Client("127.0.0.1", 8000);
+    static public String userName = "";
 
     public static void main(String[] args) {
         //게임의 GUI를 구동하는 MainFrameRunnable 객체를 생성하여 UI 스레드에 처리를 요청

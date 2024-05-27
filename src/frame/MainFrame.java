@@ -2,7 +2,10 @@ package frame;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
+import main.Main;
 import panels.*;
 import panels.game.EnduringGame.EnduringEndPanel;
 import panels.game.EnduringGame.EnduringGamePanel;
@@ -67,6 +70,13 @@ public class MainFrame extends JFrame {
         this.add(speedEndPanel, "SpeedEndPanel");
         this.add(enduringGamePanel, "EnduringGamePanel");
         this.add(enduringEndPanel, "EnduringEndPanel");
+        this.addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent e) {
+                Main.client.communicationExit();
+                Main.client.closeClientSocket();
+                System.exit(0);
+            }
+        });
     }
 
     public NormalScoreGamePanel getNormalScoreGamePanel() {

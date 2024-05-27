@@ -20,6 +20,7 @@ abstract public class ReadyPanel extends JPanel {
     JLabel NormalScoreModeBackGround = new JLabel();
     JScrollPane RankingScrollPane;
     JLabel RankingTitle = new JLabel();
+    JLabel[] RankingList = new JLabel[100];
     JButton rollBackButton = new JButton();
     JButton GameStartButton = new JButton();
 
@@ -29,30 +30,29 @@ abstract public class ReadyPanel extends JPanel {
     //ReadyPanel initialize method
     public ReadyPanel(MainFrame superFrame) {
         this.superFrame = superFrame;
-        this.getServerData();
         this.setPanel();
         this.setComponent();
     }
-    abstract protected void getServerData();
+    abstract public void getServerData();
     private void setPanel(){
         this.setLayout(null);
     }
     private void setComponent(){
         JPanel RankingPanel = new JPanel();
         RankingPanel.setLayout(new GridLayout(0, 1));
-        RankingPanel.setSize(181, 300); //스크롤의 넓이가 19
+        RankingPanel.setSize(231, 300); //스크롤의 넓이가 19
         for(int i = 0; i < 100; i++) {
-            JLabel rankingLabel = new JLabel((i + 1) + ((i > 8)?"":"  ") + ((i == 99)?"":"  ") + "   " + rank[i]);
-            rankingLabel.setSize(200,30);
-            rankingLabel.setIcon(new RankingLabel("img/ready/rankingBackground.png"));
-            rankingLabel.setIconTextGap(-170);
-            RankingPanel.add(rankingLabel);
+            RankingList[i] = new JLabel();
+            RankingList[i].setSize(250,30);
+            RankingList[i].setIcon(new RankingLabel("img/ready/rankingBackground.png"));
+            RankingList[i].setIconTextGap(-220);
+            RankingPanel.add(RankingList[i]);
         }
         RankingScrollPane = new JScrollPane(RankingPanel, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-        RankingScrollPane.setBounds(100, 100, 200, 300);
+        RankingScrollPane.setBounds(100, 100, 250, 300);
         this.add(RankingScrollPane);
 
-        RankingTitle.setBounds(100, 70, 200, 30);
+        RankingTitle.setBounds(100, 70, 250, 30);
         RankingTitle.setIcon(new RankingLabel("img/ready/rankingTitle.png"));
         this.add(RankingTitle);
 
@@ -77,7 +77,6 @@ abstract public class ReadyPanel extends JPanel {
         GameStartButton.setContentAreaFilled(false);
         GameStartButton.setBorderPainted(false);
         GameStartButton.addMouseListener(setMouseListener());
-
         this.add(GameStartButton);
 
         NormalScoreModeBackGround.setIcon(new Background("img/ready/readyBackground.png"));

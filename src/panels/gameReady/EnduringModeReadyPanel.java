@@ -12,10 +12,10 @@ public class EnduringModeReadyPanel extends ReadyPanel{
     public EnduringModeReadyPanel(MainFrame superFrame) {
         super(superFrame);
         super.RankingTitle.setText("Enduring Mode 순위");
-        super.RankingTitle.setIconTextGap(-148);
+        super.RankingTitle.setIconTextGap(-173);
     }
     @Override
-    protected void getServerData(){
+    public void getServerData(){
         for(int i = 0; i < 100; i++) {
             super.rank[i] = Integer.toString(i);
         }

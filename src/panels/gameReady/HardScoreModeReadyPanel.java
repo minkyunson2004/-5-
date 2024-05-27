@@ -2,6 +2,7 @@ package panels.gameReady;
 
 import frame.MainFrame;
 import ingame.CookieImg;
+import main.Main;
 
 import javax.swing.*;
 import java.awt.event.MouseAdapter;
@@ -12,12 +13,14 @@ public class HardScoreModeReadyPanel extends ReadyPanel{
     public HardScoreModeReadyPanel(MainFrame superFrame) {
         super(superFrame);
         super.RankingTitle.setText("Hard Score Mode 순위");
-        super.RankingTitle.setIconTextGap(-155);
+        super.RankingTitle.setIconTextGap(-180);
     }
     @Override
-    protected void getServerData(){
+    public void getServerData(){
+        String[] ranking = Main.client.getHardScoreRank();
+        System.arraycopy(ranking, 0, super.rank, 0, ranking.length);
         for(int i = 0; i < 100; i++) {
-            super.rank[i] = Integer.toString(i);
+            RankingList[i].setText((i + 1) + ((i > 8)?"":"  ") + ((i == 99)?"":"  ") + "   " + rank[i]);
         }
     }
     @Override

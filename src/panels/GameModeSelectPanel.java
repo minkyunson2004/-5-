@@ -3,7 +3,6 @@ package panels;
 import javax.swing.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 
 import frame.MainFrame;
 import image.*;
@@ -28,28 +27,6 @@ public class GameModeSelectPanel extends JPanel {
     }
     private void setComponent(){
         String[] modeArray = {"NormalScore", "HardScore", "Speed", "Enduring"};
-        class ModeButtonMouseListener extends MouseAdapter {
-            final String mode;
-            ModeButtonMouseListener(String mode){
-                super();
-                this.mode = mode;
-            }
-            public void mouseClicked(MouseEvent e) {
-                try {
-                    Thread.sleep(300);
-                } catch (InterruptedException e1) {
-                    e1.printStackTrace();
-                }
-                superFrame.getLayout().show(superFrame.getContentPane(), mode + "ModeReadyPanel"); //gameReadyPanel 을 카드레이아웃 최상단으로 변경
-
-                if(mode.equals("NormalScore")) superFrame.getNormalScoreModeReadyPanel().setFocusable(true);
-                else if(mode.equals("HardScore")) superFrame.getHardScoreModeReadyPanel().setFocusable(true);
-                else if(mode.equals("Speed")) superFrame.getSpeedModeReadyPanel().setFocusable(true);
-                else if(mode.equals("Enduring")) superFrame.getEnduringModeReadyPanel().setFocusable(true);
-
-                superFrame.setVisible(true);
-            }
-        }
 
         for (int i = 0; i < 4; i++){
             ModeCookieImage[i] = new JLabel();
@@ -68,5 +45,41 @@ public class GameModeSelectPanel extends JPanel {
         GameModeSelectPanelBackGround.setIcon(new Background("img/select/selectBackground.png"));
         GameModeSelectPanelBackGround.setBounds(0, 0, 900, 500);
         this.add(GameModeSelectPanelBackGround);
+    }
+    class ModeButtonMouseListener extends MouseAdapter {
+        final String mode;
+        ModeButtonMouseListener(String mode){
+            super();
+            this.mode = mode;
+        }
+        public void mouseClicked(MouseEvent e) {
+            try {
+                Thread.sleep(300);
+            } catch (InterruptedException e1) {
+                e1.printStackTrace();
+            }
+
+            switch (mode) {
+                case "NormalScore" -> {
+                    superFrame.getNormalScoreModeReadyPanel().getServerData();
+                    superFrame.getNormalScoreModeReadyPanel().setFocusable(true);
+                }
+                case "HardScore" -> {
+                    superFrame.getHardScoreModeReadyPanel().getServerData();
+                    superFrame.getHardScoreModeReadyPanel().setFocusable(true);
+                }
+                case "Speed" -> {
+                    superFrame.getSpeedModeReadyPanel().getServerData();
+                    superFrame.getSpeedModeReadyPanel().setFocusable(true);
+                }
+                case "Enduring" -> {
+                    superFrame.getEnduringModeReadyPanel().getServerData();
+                    superFrame.getEnduringModeReadyPanel().setFocusable(true);
+                }
+            }
+
+            superFrame.getLayout().show(superFrame.getContentPane(), mode + "ModeReadyPanel"); //gameReadyPanel 을 카드레이아웃 최상단으로 변경
+            superFrame.setVisible(true);
+        }
     }
 }
