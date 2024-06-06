@@ -686,7 +686,7 @@ public class SpeedGamePanel extends JPanel {
 
 
 
-                    if (runPage > 100) { // 100픽셀 이동 마다 진행률 1% 증가
+                    if (runPage > 630) { // 100픽셀 이동 마다 진행률 1% 증가
                         myScore+=1;
                         runPage = 0;
                     }
