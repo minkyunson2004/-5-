@@ -26,7 +26,12 @@ public class SpeedEndPanel extends JPanel {
     private int resultScore;
 
     public void setResultScore(int resultScore) {
-        lblNewLabel_2.setText(resultScore+"");
+        if(resultScore==0) {
+            lblNewLabel_2.setText("You lose");
+        }
+        else {
+            lblNewLabel_2.setText("You win");
+        }
     }
 
     public SpeedEndPanel(MainFrame superFrame) {
@@ -53,16 +58,10 @@ public class SpeedEndPanel extends JPanel {
         btnNewButton.setContentAreaFilled(false);
         add(btnNewButton);
 
-        //Á¡¼ö ±ÛÀÚ
-        lblNewLabel_1 = new JLabel("SCORE");
-        lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
-        lblNewLabel_1.setFont(new Font("Gill Sans Ultra Bold", Font.PLAIN, 37));
-        lblNewLabel_1.setBounds(625, 10, 205, 55);
-        add(lblNewLabel_1);
 
         lblNewLabel_2 = new JLabel("0");
         lblNewLabel_2.setHorizontalAlignment(SwingConstants.CENTER);
-        lblNewLabel_2.setFont(new Font("Harlow Solid Italic", Font.PLAIN, 49));
+        lblNewLabel_2.setFont(new Font("Font.BOLD", Font.PLAIN, 49));
         lblNewLabel_2.setBounds(500, 60, 459, 87);
         add(lblNewLabel_2);
 

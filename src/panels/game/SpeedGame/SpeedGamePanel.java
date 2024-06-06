@@ -1,11 +1,6 @@
 package panels.game.SpeedGame;
 
-import java.awt.AlphaComposite;
-import java.awt.CardLayout;
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Image;
+import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
@@ -18,7 +13,6 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import frame.MainFrame;
-import image.GameBackground;
 import ingame.Back;
 import ingame.Cookie;
 import ingame.CookieImg;
@@ -52,10 +46,7 @@ public class SpeedGamePanel extends JPanel {
     private ImageIcon secondBackIc4;
 
     // 젤리 이미지 아이콘들
-    private ImageIcon jelly1Ic;
-    private ImageIcon jelly2Ic;
-    private ImageIcon jelly3Ic;
-    private ImageIcon jellyHPIc;
+
 
     private ImageIcon jellyEffectIc;
 
@@ -70,7 +61,9 @@ public class SpeedGamePanel extends JPanel {
     private ImageIcon tacle40Ic; // 4칸 장애물
 
     // 체력 게이지
-    private ImageIcon lifeBar;
+    private ImageIcon speedModeBar;
+    private ImageIcon speedModeMe;
+    private ImageIcon speedModeOpponent;
 
     private ImageIcon redBg; // 피격시 붉은 화면
 
@@ -92,15 +85,27 @@ public class SpeedGamePanel extends JPanel {
 
     private List<Integer> mapLengthList;
 
+    private int winlose = -1;
+
     private int mapLength = 0;
 
     private int runPage = 0; // 한 화면 이동할때마다 체력을 깎기 위한 변수
 
     private int runStage = 1; // 스테이지를 확인하는 변수이다. (미구현)
 
-    private int resultScore = 0; // 결과점수를 수집하는 변수
+    private int myScore = 0; // 결과점수를 수집하는 변수
+
+    private int opponentScore = 0; // 결과점수를 수집하는 변수
 
     private int gameSpeed = 5; // 게임 속도
+
+    private boolean hit = false;
+
+    private int hitPenalty = 0;
+
+    private int penaltyTime=0;
+
+
 
     private int nowField = 2000; // 발판의 높이를 저장.
 
@@ -154,7 +159,7 @@ public class SpeedGamePanel extends JPanel {
 
         // 일시정지 버튼
         escButton = new JButton("back");
-        escButton.setBounds(400, 235, 100, 30);
+        escButton.setBounds(350, 200, 100, 30);
         escButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -229,7 +234,7 @@ public class SpeedGamePanel extends JPanel {
             // 사양을 덜 잡아먹게 하기위한 조치
             if (tempFoot.getX() > -90 && tempFoot.getX() < 900) { // x값이 -90~810인 객체들만 그린다.
 
-                buffg.drawImage(tempFoot.getImage(), tempFoot.getX(), tempFoot.getY() + 20, tempFoot.getWidth(),
+                buffg.drawImage(tempFoot.getImage(), tempFoot.getX(), tempFoot.getY(), tempFoot.getWidth(),
                         tempFoot.getHeight(), null);
             }
 
@@ -246,7 +251,7 @@ public class SpeedGamePanel extends JPanel {
                         (float) tempJelly.getAlpha() / 255);
                 g2.setComposite(alphaComposite); // 투명하게 하는방법 2
 
-                buffg.drawImage(tempJelly.getImage(), tempJelly.getX(), tempJelly.getY() + 20, tempJelly.getWidth(),
+                buffg.drawImage(tempJelly.getImage(), tempJelly.getX(), tempJelly.getY(), tempJelly.getWidth(),
                         tempJelly.getHeight(), null);
 
                 // alpha값을 되돌린다
@@ -262,7 +267,7 @@ public class SpeedGamePanel extends JPanel {
 
             if (tempTacle.getX() > -90 && tempTacle.getX() < 900) {
 
-                buffg.drawImage(tempTacle.getImage(), tempTacle.getX(), tempTacle.getY() + 20, tempTacle.getWidth(),
+                buffg.drawImage(tempTacle.getImage(), tempTacle.getX(), tempTacle.getY(), tempTacle.getWidth(),
                         tempTacle.getHeight(), null);
             }
         }
@@ -273,7 +278,7 @@ public class SpeedGamePanel extends JPanel {
             g2.setComposite(alphaComposite);
 
             // 쿠키를 그린다
-            buffg.drawImage(c1.getImage(), c1.getX() - 110, c1.getY() - 150,
+            buffg.drawImage(c1.getImage(), c1.getX() - 110, c1.getY() - 170,
                     cookieIc.getImage().getWidth(null) * 8 / 10, cookieIc.getImage().getHeight(null) * 8 / 10, null);
 
             // alpha값을 되돌린다
@@ -283,7 +288,7 @@ public class SpeedGamePanel extends JPanel {
         } else { // 무적상태가 아닐 경우
 
             // 쿠키를 그린다
-            buffg.drawImage(c1.getImage(), c1.getX() - 110, c1.getY() - 150,
+            buffg.drawImage(c1.getImage(), c1.getX() - 110, c1.getY() - 170,
                     cookieIc.getImage().getWidth(null) * 8 / 10, cookieIc.getImage().getHeight(null) * 8 / 10, null);
         }
 
@@ -301,20 +306,33 @@ public class SpeedGamePanel extends JPanel {
 
 //		buffg.setFont(new Font("Arial", Font.BOLD, 30));
 //		buffg.setColor(Color.WHITE);
-//		buffg.drawString(Integer.toString(resultScore), 700, 85);
+//		buffg.drawString(Integer.toString(myScore), 700, 85);
 
         // 점수를 그린다
-        Util.drawFancyString(g2, Integer.toString(resultScore), 600, 58, 30, Color.WHITE);
+        String scoreper = myScore + "%";
+        g2.setFont(new Font("Arial", Font.BOLD, 30)); // 폰트 설정
+        g2.setColor(Color.BLACK); // 글자 색 설정
+        g2.drawString(scoreper, 830, 45);
+
+        String penaltyTimeNum = penaltyTime + "s to accelerate";
+        g2.setFont(new Font("Arial", Font.BOLD, 15)); // 폰트 설정
+        g2.setColor(Color.RED); // 글자 색 설정
+        g2.drawString(penaltyTimeNum, 770, 15);
+
+        String speednum = gameSpeed  + "m/s";
+        g2.setFont(new Font("Arial Bold", Font.BOLD, 30)); // 폰트 설정
+        g2.setColor(Color.BLUE); // 글자 색 설정
+        g2.drawString(speednum, 800, 75);
 
         // 체력게이지를 그린다
-        buffg.drawImage(lifeBar.getImage(), 20, 30, null);
-        buffg.setColor(Color.BLACK);
-        buffg.fillRect(84 + (int) (470 * ((double) c1.getHealth() / 1000)), 65,
-                1 + 470 - (int) (470 * ((double) c1.getHealth() / 1000)), 21);
+        buffg.drawImage(speedModeBar.getImage(), 20, 15, null);
+        buffg.drawImage(speedModeMe.getImage(), 15+(7*myScore), 20, null);
+        buffg.drawImage(speedModeOpponent.getImage(), 15+(7*opponentScore), 20, null);
+
 
         // 버튼을 그린다
-        buffg.drawImage(jumpBtn, 0, 380, 132, 100, null);
-        buffg.drawImage(slideBtn, 768, 380, 132, 100, null);
+        buffg.drawImage(jumpBtn, 0, 360, 132, 100, null);
+        buffg.drawImage(slideBtn, 650, 360, 132, 100, null);
 
         if (escKeyOn) { // esc키를 누를경우 화면을 흐리게 만든다
 
@@ -324,7 +342,7 @@ public class SpeedGamePanel extends JPanel {
 
             buffg.setColor(Color.BLACK);
 
-            buffg.fillRect(0, 0, 900, 500);
+            buffg.fillRect(0, 0, 850, 550);
 
             // alpha값을 되돌린다
             alphaComposite = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, (float) 255 / 255);
@@ -339,37 +357,39 @@ public class SpeedGamePanel extends JPanel {
     // 맵 오브젝트 이미지들을 저장
     private void makeMo() {
 
-        mo1 = new MapObjectImg(new GameBackground("img/game/Speed/map1img/bg1.png"), new ImageIcon("img/game/Speed/map1img/bg2.png"),
-                new ImageIcon("img/game/Common/jelly/jelly1.png"), new ImageIcon("img/game/Common/jelly/jelly2.png"),
-                new ImageIcon("img/game/Common/jelly/jelly3.png"), new ImageIcon("img/game/Common/jelly/life.png"),
-                new ImageIcon("img/game/Common/effectTest.png"),
-                new ImageIcon("img/game/Speed/map1img/fieldIc1.png"), new ImageIcon("img/game/Speed/map1img/fieldIc2.png"),
-                new ImageIcon("img/game/Speed/map1img/tacle1.gif"), new ImageIcon("img/game/Speed/map1img/tacle2.png"),
-                new ImageIcon("img/game/Speed/map1img/tacle3.png"), new ImageIcon("img/game/Speed/map1img/tacle3.png"));
+        mo1 = new MapObjectImg(new ImageIcon("img/Objectimg/map1img/bg1.png"),
+                new ImageIcon("img/Objectimg/map1img/bg2.png"), new ImageIcon("img/Objectimg/map1img/jelly1.png"),
+                new ImageIcon("img/Objectimg/map1img/jelly2.png"), new ImageIcon("img/Objectimg/map1img/jelly3.png"),
+                new ImageIcon("img/Objectimg/map1img/life.png"), new ImageIcon("img/Objectimg/map1img/effectTest.png"),
+                new ImageIcon("img/Objectimg/map1img/fieldIc1.png"),
+                new ImageIcon("img/Objectimg/map1img/fieldIc2.png"), new ImageIcon("img/Objectimg/map1img/tacle1.gif"),
+                new ImageIcon("img/Objectimg/map1img/tacle2.png"), new ImageIcon("img/Objectimg/map1img/tacle3.png"),
+                new ImageIcon("img/Objectimg/map1img/tacle3.png"));
 
-        mo2 = new MapObjectImg(new GameBackground("img/game/Speed/map2img/back1.png"), new ImageIcon("img/game/Speed/map2img/back2.png"),
-                new ImageIcon("img/game/Common/jelly/jelly1.png"), new ImageIcon("img/game/Common/jelly/jelly2.png"),
-                new ImageIcon("img/game/Common/jelly/jelly3.png"), new ImageIcon("img/game/Common/jelly/life.png"),
-                new ImageIcon("img/game/Common/effectTest.png"),
-                new ImageIcon("img/game/Speed/map2img/field1.png"), new ImageIcon("img/game/Speed/map2img/field2.png"),
-                new ImageIcon("img/game/Speed/map2img/tacle1.png"), new ImageIcon("img/game/Speed/map2img/tacle2.png"),
-                new ImageIcon("img/game/Speed/map2img/tacle3.png"), new ImageIcon("img/game/Speed/map2img/tacle3.png"));
+        mo2 = new MapObjectImg(new ImageIcon("img/Objectimg/map2img/back1.png"),
+                new ImageIcon("img/Objectimg/map2img/back2.png"), new ImageIcon("img/Objectimg/map1img/jelly1.png"),
+                new ImageIcon("img/Objectimg/map1img/jelly2.png"), new ImageIcon("img/Objectimg/map1img/jelly3.png"),
+                new ImageIcon("img/Objectimg/map1img/life.png"), new ImageIcon("img/Objectimg/map1img/effectTest.png"),
+                new ImageIcon("img/Objectimg/map2img/field1.png"), new ImageIcon("img/Objectimg/map2img/field2.png"),
+                new ImageIcon("img/Objectimg/map2img/tacle1.png"), new ImageIcon("img/Objectimg/map2img/tacle2.png"),
+                new ImageIcon("img/Objectimg/map2img/tacle3.png"), new ImageIcon("img/Objectimg/map2img/tacle3.png"));
 
-        mo3 = new MapObjectImg(new GameBackground("img/game/Speed/map3img/bg.png"), new ImageIcon("img/game/Speed/map3img/bg2.png"),
-                new ImageIcon("img/game/Common/jelly/jelly1.png"), new ImageIcon("img/game/Common/jelly/jelly2.png"),
-                new ImageIcon("img/game/Common/jelly/jelly3.png"), new ImageIcon("img/game/Common/jelly/life.png"),
-                new ImageIcon("img/game/Common/effectTest.png"),
-                new ImageIcon("img/game/Speed/map3img/field.png"), new ImageIcon("img/game/Speed/map3img/field2.png"),
-                new ImageIcon("img/game/Speed/map3img/tacle1.png"), new ImageIcon("img/game/Speed/map3img/tacle2.png"),
-                new ImageIcon("img/game/Speed/map3img/tacle3.png"), new ImageIcon("img/game/Speed/map3img/tacle3.png"));
+        mo3 = new MapObjectImg(new ImageIcon("img/Objectimg/map3img/bg.png"),
+                new ImageIcon("img/Objectimg/map3img/bg2.png"), new ImageIcon("img/Objectimg/map1img/jelly1.png"),
+                new ImageIcon("img/Objectimg/map1img/jelly2.png"), new ImageIcon("img/Objectimg/map1img/jelly3.png"),
+                new ImageIcon("img/Objectimg/map1img/life.png"), new ImageIcon("img/Objectimg/map1img/effectTest.png"),
+                new ImageIcon("img/Objectimg/map3img/field.png"), new ImageIcon("img/Objectimg/map3img/field2.png"),
+                new ImageIcon("img/Objectimg/map3img/tacle1.png"), new ImageIcon("img/Objectimg/map3img/tacle2.png"),
+                new ImageIcon("img/Objectimg/map3img/tacle3.png"), new ImageIcon("img/Objectimg/map3img/tacle3.png"));
 
-        mo4 = new MapObjectImg(new GameBackground("img/game/Speed/map4img/bback.png"), new ImageIcon("img/game/Speed/bback2.png"),
-                new ImageIcon("img/game/Common/jelly/jelly1.png"), new ImageIcon("img/game/Common/jelly/jelly2.png"),
-                new ImageIcon("img/game/Common/jelly/jelly3.png"), new ImageIcon("img/game/Common/jelly/life.png"),
-                new ImageIcon("img/game/Common/effectTest.png"),
-                new ImageIcon("img/game/Speed/map4img/ffootTest.png"), new ImageIcon("img/game/Speed/map4img/ffootTest2.png"),
-                new ImageIcon("img/game/Speed/map4img/tacle1.png"), new ImageIcon("img/game/Speed/map4img/tacle2.png"),
-                new ImageIcon("img/game/Speed/map4img/tacle2.png"), new ImageIcon("img/game/Speed/map4img/tacle2.png"));
+        mo4 = new MapObjectImg(new ImageIcon("img/Objectimg/map4img/bback.png"),
+                new ImageIcon("img/Objectimg/map4img/bback2.png"), new ImageIcon("img/Objectimg/map1img/jelly1.png"),
+                new ImageIcon("img/Objectimg/map1img/jelly2.png"), new ImageIcon("img/Objectimg/map1img/jelly3.png"),
+                new ImageIcon("img/Objectimg/map1img/life.png"), new ImageIcon("img/Objectimg/map1img/effectTest.png"),
+                new ImageIcon("img/Objectimg/map4img/ffootTest.png"),
+                new ImageIcon("img/Objectimg/map4img/ffootTest2.png"),
+                new ImageIcon("img/Objectimg/map4img/tacle1.png"), new ImageIcon("img/Objectimg/map4img/tacle2.png"),
+                new ImageIcon("img/Objectimg/map4img/tacle2.png"), new ImageIcon("img/Objectimg/map4img/tacle2.png"));
 
     }
 
@@ -388,10 +408,6 @@ public class SpeedGamePanel extends JPanel {
     private void initImageIcon(MapObjectImg mo) {
 
         // 젤리 이미지 아이콘들
-        jelly1Ic = mo.getJelly1Ic();
-        jelly2Ic = mo.getJelly2Ic();
-        jelly3Ic = mo.getJelly3Ic();
-        jellyHPIc = mo.getJellyHPIc();
 
         jellyEffectIc = mo.getJellyEffectIc();
 
@@ -413,13 +429,13 @@ public class SpeedGamePanel extends JPanel {
         int tempMapLength = 0;
 
         if (num == 1) {
-            tempMap = "img/game/Speed/map1.png";
+            tempMap = "img/map/map1.png";
         } else if (num == 2) {
-            tempMap = "img/game/Speed/map2.png";
+            tempMap = "img/map/map2.png";
         } else if (num == 3) {
-            tempMap = "img/game/Speed/map3.png";
+            tempMap = "img/map/map3.png";
         } else if (num == 4) {
-            tempMap = "img/game/Speed/map4.png";
+            tempMap = "img/map/map4.png";
         }
 
         // 맵 정보 불러오기
@@ -434,26 +450,6 @@ public class SpeedGamePanel extends JPanel {
         int maxX = sizeArr[0]; // 맵의 넓이
         int maxY = sizeArr[1]; // 맵의 높이
 
-        for (int i = 0; i < maxX; i += 1) { // 젤리는 1칸을 차지하기 때문에 1,1사이즈로 반복문을 돌린다.
-            for (int j = 0; j < maxY; j += 1) {
-                if (colorArr[i][j] == 16776960) { // 색값이 16776960일 경우 기본젤리 생성
-                    // 좌표에 40을 곱하고, 넓이와 높이는 30으로 한다.
-                    jellyList.add(new Jelly(jelly1Ic.getImage(), i * 40 + mapLength * 40, j * 40, 30, 30, 255, 1234));
-
-                } else if (colorArr[i][j] == 13158400) { // 색값이 13158400일 경우 노란젤리 생성
-                    // 좌표에 40을 곱하고, 넓이와 높이는 30으로 한다.
-                    jellyList.add(new Jelly(jelly2Ic.getImage(), i * 40 + mapLength * 40, j * 40, 30, 30, 255, 2345));
-
-                } else if (colorArr[i][j] == 9868800) { // 색값이 9868800일 경우 노란젤리 생성
-                    // 좌표에 40을 곱하고, 넓이와 높이는 30으로 한다.
-                    jellyList.add(new Jelly(jelly3Ic.getImage(), i * 40 + mapLength * 40, j * 40, 30, 30, 255, 3456));
-
-                } else if (colorArr[i][j] == 16737280) { // 색값이 16737280일 경우 피 물약 생성
-                    // 좌표에 40을 곱하고, 넓이와 높이는 30으로 한다.
-                    jellyList.add(new Jelly(jellyHPIc.getImage(), i * 40 + mapLength * 40, j * 40, 30, 30, 255, 4567));
-                }
-            }
-        }
 
         for (int i = 0; i < maxX; i += 2) { // 발판은 4칸을 차지하는 공간이기 때문에 2,2사이즈로 반복문을 돌린다.
             for (int j = 0; j < maxY; j += 2) {
@@ -492,18 +488,20 @@ public class SpeedGamePanel extends JPanel {
     private void initObject() {
 
         // 생명게이지 이미지아이콘
-        lifeBar = new ImageIcon("img/game/Common/lifebar/lifeBar1.png");
+        speedModeBar = new ImageIcon("img/game/Common/lifebar/speedModeBar.png");
+        speedModeMe = new ImageIcon("img/game/Common/lifebar/speedModeMe.png");
+        speedModeOpponent = new ImageIcon("img/game/Common/lifebar/speedModeOpponent.png");
 
         // 피격 붉은 이미지
-        redBg = new ImageIcon("img/game/Common/lifebar/redBg.png");
+        redBg = new ImageIcon("img/Objectimg/lifebar/redBg.png");
 
         // 점프버튼
-        jumpButtonIconUp = new ImageIcon("img/game/Common/lifebar/jumpno.png");
-        jumpButtonIconDown = new ImageIcon("img/game/Common/lifebar/jumpdim.png");
+        jumpButtonIconUp = new ImageIcon("img/Objectimg/lifebar/jumpno.png");
+        jumpButtonIconDown = new ImageIcon("img/Objectimg/lifebar/jumpdim.png");
 
         // 슬라이드 버튼
-        slideIconUp = new ImageIcon("img/game/Common/lifebar/slideno.png");
-        slideIconDown = new ImageIcon("img/game/Common/lifebar/slidedim.png");
+        slideIconUp = new ImageIcon("img/Objectimg/lifebar/slideno.png");
+        slideIconDown = new ImageIcon("img/Objectimg/lifebar/slidedim.png");
 
         jumpBtn = jumpButtonIconUp.getImage();
         slideBtn = slideIconUp.getImage();
@@ -601,6 +599,16 @@ public class SpeedGamePanel extends JPanel {
                             jump(); // 점프 메서드 가동
                         }
                     }
+                    if (e.getKeyCode() == KeyEvent.VK_LEFT) {// 속도감소버튼
+                        if (gameSpeed > 2 && !hit) {
+                            gameSpeed-=1; // 점프 메서드 가동
+                        }
+                    }
+                    if (e.getKeyCode() == KeyEvent.VK_RIGHT) {// 속도증가버튼
+                        if (gameSpeed < 20 && !hit) {
+                            gameSpeed+=1; // 점프 메서드 가동
+                        }
+                    }
                     if (e.getKeyCode() == KeyEvent.VK_DOWN) { // 다운키를 눌렀을 때
                         slideBtn = slideIconDown.getImage();
                         downKeyOn = true; // downKeyOn 변수를 true로
@@ -676,16 +684,27 @@ public class SpeedGamePanel extends JPanel {
             public void run() {
                 while (true) {
 
-                    if (runPage > 800) { // 800픽셀 이동 마다 체력이 10씩 감소한다 (추후 맵길이에 �上 감소량 조절)
-                        c1.setHealth((int)c1.getHealth() - 10);
+
+
+                    if (runPage > 100) { // 100픽셀 이동 마다 진행률 1% 증가
+                        myScore+=1;
                         runPage = 0;
                     }
 
                     runPage += gameSpeed; // 화면이 이동하면 runPage에 이동한 만큼 저장된다.
 
                     foot = c1.getY() + c1.getHeight(); // 캐릭터 발 위치 재스캔
-                    if (foot > 1999 || c1.getHealth() < 1) {
-                        superFrame.getSpeedEndPanel().setResultScore(resultScore);
+                    if (myScore>=100) { // && 상대 낙하
+                        winlose=1;
+                        superFrame.getSpeedEndPanel().setResultScore(winlose);
+                        cl.show(superFrame.getContentPane(), "SpeedEndPanel");
+                        superFrame.setSpeedGamePanel(new SpeedGamePanel(superFrame));
+                        superFrame.requestFocus();
+                        escKeyOn = true;
+                    }
+                    if (foot > 1999) { // && 상대 결승도달
+                        winlose=0;
+                        superFrame.getSpeedEndPanel().setResultScore(winlose);
                         cl.show(superFrame.getContentPane(), "SpeedEndPanel");
                         superFrame.setSpeedGamePanel(new SpeedGamePanel(superFrame));
                         superFrame.requestFocus();
@@ -805,11 +824,11 @@ public class SpeedGamePanel extends JPanel {
                     }
 
                     // 배경의 x좌표를 -1 해준다 (왼쪽으로 흐르는 효과)
-                    b11.setX(b11.getX() - gameSpeed / 3);
-                    b12.setX(b12.getX() - gameSpeed / 3);
+                    b11.setX( (b11.getX() - gameSpeed / 3));
+                    b12.setX( (b12.getX() - gameSpeed / 3));
 
-                    b21.setX(b21.getX() - gameSpeed * 2 / 3);
-                    b22.setX(b22.getX() - gameSpeed * 2 / 3);
+                    b21.setX( (b21.getX() - gameSpeed / 3));
+                    b22.setX( (b22.getX() - gameSpeed / 3));
 
                     // 발판위치를 -3 씩 해준다. (왼쪽으로 흐르는 효과)
                     for (int i = 0; i < fieldList.size(); i++) {
@@ -853,15 +872,8 @@ public class SpeedGamePanel extends JPanel {
                                             && tempJelly.getY() + tempJelly.getWidth() * 80 / 100 <= foot
                                             && tempJelly.getImage() != jellyEffectIc.getImage()) {
 
-                                if (tempJelly.getImage() == jellyHPIc.getImage()) {
-                                    if ((c1.getHealth() + 100) > 1000) {
-                                        c1.setHealth(1000);
-                                    } else {
-                                        c1.setHealth(c1.getHealth() + 100);
-                                    }
-                                }
+
                                 tempJelly.setImage(jellyEffectIc.getImage()); // 젤리의 이미지를 이펙트로 바꾼다
-                                resultScore = resultScore + tempJelly.getScore(); // 총점수에 젤리 점수를 더한다
 
                             } else if ( // 슬라이딩 하는 캐릭터의 범위 안에 젤리가 있으면 아이템을 먹는다.
                                     c1.getImage() == slideIc.getImage()
@@ -872,15 +884,7 @@ public class SpeedGamePanel extends JPanel {
                                             && tempJelly.getY() + tempJelly.getWidth() * 80 / 100 <= foot
                                             && tempJelly.getImage() != jellyEffectIc.getImage()) {
 
-                                if (tempJelly.getImage() == jellyHPIc.getImage()) {
-                                    if ((c1.getHealth() + 100) > 1000) {
-                                        c1.setHealth(1000);
-                                    } else {
-                                        c1.setHealth(c1.getHealth() + 100);
-                                    }
-                                }
                                 tempJelly.setImage(jellyEffectIc.getImage()); // 젤리의 이미지를 이펙트로 바꾼다
-                                resultScore = resultScore + tempJelly.getScore(); // 총점수에 젤리 점수를 더한다
 
                             }
                         }
@@ -1003,15 +1007,15 @@ public class SpeedGamePanel extends JPanel {
             @Override
             public void run() {
 
-                c1.setInvincible(true); // 쿠키를 무적상태로 전환
-
-                System.out.println("피격무적시작");
+                c1.setInvincible(true);
+                System.out.println("피격");
 
                 redScreen = true; // 피격 붉은 이펙트 시작
+                hit = true;
+                gameSpeed=2;
+                hitPenalty++;
+                penaltyTime= 2+hitPenalty;
 
-                c1.setHealth(c1.getHealth() - 100); // 쿠키의 체력을 100 깎는다
-
-                c1.setImage(hitIc.getImage()); // 쿠키를 부딛힌 모션으로 변경
 
                 c1.setAlpha(80); // 쿠키의 투명도를 80으로 변경
 
@@ -1021,7 +1025,7 @@ public class SpeedGamePanel extends JPanel {
                     e.printStackTrace();
                 }
 
-                redScreen = false; // 피격 붉은 이펙트 종료
+
 
                 try { // 0.5초 대기
                     Thread.sleep(250);
@@ -1035,7 +1039,7 @@ public class SpeedGamePanel extends JPanel {
 
                 }
 
-                for (int j = 0; j < 11; j++) { // 2.5초간 캐릭터가 깜빡인다. (피격후 무적 상태를 인식)
+                for (int j = 0; j < (2+hitPenalty); j++) { // 2.5초간 캐릭터가 깜빡인다. (피격후 무적 상태를 인식)
 
                     if (c1.getAlpha() == 80) { // 이미지의 알파값이 80이면 160으로
 
@@ -1047,14 +1051,16 @@ public class SpeedGamePanel extends JPanel {
 
                     }
                     try {
-                        Thread.sleep(250);
+                        Thread.sleep(1000);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
+                    penaltyTime--;
                 }
 
                 c1.setAlpha(255); // 쿠키의 투명도를 정상으로 변경
-
+                hit = false;
+                redScreen = false; // 피격 붉은 이펙트 종료
                 c1.setInvincible(false);
                 System.out.println("피격무적종료");
             }
@@ -1092,7 +1098,7 @@ public class SpeedGamePanel extends JPanel {
 
                             t2 = Util.getTime() - t1; // 지금 시간에서 t1을 뺀다
 
-                            int fallY = set + (int) ((t2) / 40); // 낙하량을 늘린다.
+                            int fallY = set + (int) ((t2) / (200/gameSpeed)); // 낙하량을 늘린다.
 
                             foot = c1.getY() + c1.getHeight(); // 캐릭터 발 위치 재스캔
 
@@ -1182,17 +1188,17 @@ public class SpeedGamePanel extends JPanel {
                     c1.setImage(doubleJumpIc.getImage());
 
                 }
-
+// 점프난제
                 long t1 = Util.getTime(); // 현재시간을 가져온다
                 long t2;
-                int set = 8; // 점프 계수 설정(0~20) 등으로 바꿔보자
+                int set = 5+(int)(0.8*gameSpeed); // 점프 계수 설정(0~20) 등으로 바꿔보자
                 int jumpY = 1; // 1이상으로만 설정하면 된다.(while문 조건 때문)
 
                 while (jumpY >= 0) { // 상승 높이가 0일때까지 반복
 
                     t2 = Util.getTime() - t1; // 지금 시간에서 t1을 뺀다
 
-                    jumpY = set - (int) ((t2) / 40); // jumpY 를 세팅한다.
+                    jumpY = set - (int) ((t2) / (200/gameSpeed));// jumpY 를 세팅한다.
 
                     c1.setY(c1.getY() - jumpY); // Y값을 변경한다.
 
