@@ -71,11 +71,20 @@ public class SpeedGamePanel extends JPanel {
     private ImageIcon jumpButtonIconUp;
     private ImageIcon jumpButtonIconDown;
 
+    private ImageIcon leftButtonIconUp;
+    private ImageIcon leftButtonIconDown;
+
+    private ImageIcon rightButtonIconUp;
+    private ImageIcon rightButtonIconDown;
+
     private ImageIcon slideIconUp;
     private ImageIcon slideIconDown;
 
     Image jumpBtn;
     Image slideBtn;
+    Image leftBtn;
+    Image rightBtn;
+
 
     // 리스트 생성
     private List<Jelly> jellyList; // 젤리 리스트
@@ -320,7 +329,9 @@ public class SpeedGamePanel extends JPanel {
 
         // 버튼을 그린다
         buffg.drawImage(jumpBtn, 0, 360, 132, 100, null);
-        buffg.drawImage(slideBtn, 650, 360, 132, 100, null);
+        buffg.drawImage(slideBtn, 720, 360, 132, 100, null);
+        buffg.drawImage(leftBtn, 150, 360, 90, 90, null);
+        buffg.drawImage(rightBtn, 600, 360, 90, 90, null);
 
         // 버퍼이미지를 화면에 출력한다
         g.drawImage(buffImage, 0, 0, this);
@@ -474,9 +485,17 @@ public class SpeedGamePanel extends JPanel {
         // 슬라이드 버튼
         slideIconUp = new ImageIcon("img/game/Common/lifebar/slideno.png");
         slideIconDown = new ImageIcon("img/game/Common/lifebar/slidedim.png");
+        //감속 버튼
+        leftButtonIconUp = new ImageIcon("img/game/Common/lifebar/leftno.png");
+        leftButtonIconDown = new ImageIcon("img/game/Common/lifebar/leftdim.png");
+        //가속 버튼
+        rightButtonIconUp = new ImageIcon("img/game/Common/lifebar/rightno.png");
+        rightButtonIconDown = new ImageIcon("img/game/Common/lifebar/rightdim.png");
 
         jumpBtn = jumpButtonIconUp.getImage();
         slideBtn = slideIconUp.getImage();
+        leftBtn = leftButtonIconUp.getImage();
+        rightBtn = rightButtonIconUp.getImage();
 
         jellyList = new ArrayList<>(); // 젤리 리스트
 
@@ -558,11 +577,13 @@ public class SpeedGamePanel extends JPanel {
                         }
                     }
                     if (e.getKeyCode() == KeyEvent.VK_LEFT) {// 속도감소버튼
+                        leftBtn = leftButtonIconDown.getImage();
                         if (gameSpeed > 2 && !hit) {
                             gameSpeed-=1; // 점프 메서드 가동
                         }
                     }
                     if (e.getKeyCode() == KeyEvent.VK_RIGHT) {// 속도증가버튼
+                        rightBtn = rightButtonIconDown.getImage();
                         if (gameSpeed < 20 && !hit) {
                             gameSpeed+=1; // 점프 메서드 가동
                         }
@@ -599,6 +620,12 @@ public class SpeedGamePanel extends JPanel {
 
                 if (e.getKeyCode() == KeyEvent.VK_SPACE) {
                     jumpBtn = jumpButtonIconUp.getImage();
+                }
+                if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+                    leftBtn = leftButtonIconUp.getImage();
+                }
+                if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
+                    rightBtn = rightButtonIconUp.getImage();
                 }
             }
         });
