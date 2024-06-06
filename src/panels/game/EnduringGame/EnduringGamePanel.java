@@ -641,6 +641,7 @@ public class EnduringGamePanel extends JPanel {
                         cl.show(superFrame.getContentPane(), "EnduringEndPanel");
                         superFrame.setEnduringGamePanel(new EnduringGamePanel(superFrame));
                         superFrame.requestFocus();
+                        break;
                     }
 
                     // 배경 이미지 변경

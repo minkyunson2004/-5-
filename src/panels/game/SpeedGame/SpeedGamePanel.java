@@ -549,6 +549,38 @@ public class SpeedGamePanel extends JPanel {
     // 리스너 추가 메서드
     private void initListener() {
         addKeyListener(new KeyAdapter() { // 키 리스너 추가
+            @Override
+            public void keyPressed(KeyEvent e) {
+                    if (e.getKeyCode() == KeyEvent.VK_SPACE) {// 스페이스 키를 누르고 더블점프가 2가 아닐때
+                        jumpBtn = jumpButtonIconDown.getImage();
+                        if (c1.getCountJump() < 2) {
+                            jump(); // 점프 메서드 가동
+                        }
+                    }
+                    if (e.getKeyCode() == KeyEvent.VK_LEFT) {// 속도감소버튼
+                        if (gameSpeed > 2 && !hit) {
+                            gameSpeed-=1; // 점프 메서드 가동
+                        }
+                    }
+                    if (e.getKeyCode() == KeyEvent.VK_RIGHT) {// 속도증가버튼
+                        if (gameSpeed < 20 && !hit) {
+                            gameSpeed+=1; // 점프 메서드 가동
+                        }
+                    }
+                    if (e.getKeyCode() == KeyEvent.VK_DOWN) { // 다운키를 눌렀을 때
+                        slideBtn = slideIconDown.getImage();
+                        downKeyOn = true; // downKeyOn 변수를 true로
+
+                        if (c1.getImage() != slideIc.getImage() // 쿠키이미지가 슬라이드 이미지가 아니고
+                                && !c1.isJump() // 점프 중이 아니며
+                                && !c1.isFall()) { // 낙하 중도 아닐 때
+
+                            c1.setImage(slideIc.getImage()); // 이미지를 슬라이드이미지로 변경
+
+                        }
+                    }
+
+            }
 
             @Override
             public void keyReleased(KeyEvent e) {
@@ -601,7 +633,6 @@ public class SpeedGamePanel extends JPanel {
                 while (true) {
 
 
-
                     if (runPage > 630) { // 100픽셀 이동 마다 진행률 1% 증가
                         myScore+=1;
                         runPage = 0;
@@ -616,6 +647,7 @@ public class SpeedGamePanel extends JPanel {
                         cl.show(superFrame.getContentPane(), "SpeedEndPanel");
                         superFrame.setSpeedGamePanel(new SpeedGamePanel(superFrame));
                         superFrame.requestFocus();
+                        break;
 
                     }
                     if (foot > 1999) { // && 상대 결승도달
@@ -624,6 +656,7 @@ public class SpeedGamePanel extends JPanel {
                         cl.show(superFrame.getContentPane(), "SpeedEndPanel");
                         superFrame.setSpeedGamePanel(new SpeedGamePanel(superFrame));
                         superFrame.requestFocus();
+                        break;
 
                     }
 
