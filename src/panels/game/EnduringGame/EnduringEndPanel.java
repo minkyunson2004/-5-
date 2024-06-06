@@ -18,16 +18,7 @@ public class EnduringEndPanel extends JPanel {
     MainFrame superFrame;
     ImageIcon btn = new ImageIcon("img/end/button.png");
     JButton btnNewButton;
-    JLabel lblNewLabel_1;
-    JLabel lblNewLabel_2;
     JLabel lblNewLabel;
-
-
-    private int resultScore;
-
-    public void setResultScore(int resultScore) {
-        lblNewLabel_2.setText(resultScore+"");
-    }
 
     public EnduringEndPanel(MainFrame superFrame) {
         this.setLayout(null);
@@ -52,19 +43,6 @@ public class EnduringEndPanel extends JPanel {
         btnNewButton.setFocusPainted(false);
         btnNewButton.setContentAreaFilled(false);
         add(btnNewButton);
-
-        //Á¡¼ö ±ÛÀÚ
-        lblNewLabel_1 = new JLabel("SCORE");
-        lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
-        lblNewLabel_1.setFont(new Font("Gill Sans Ultra Bold", Font.PLAIN, 37));
-        lblNewLabel_1.setBounds(625, 10, 205, 55);
-        add(lblNewLabel_1);
-
-        lblNewLabel_2 = new JLabel("0");
-        lblNewLabel_2.setHorizontalAlignment(SwingConstants.CENTER);
-        lblNewLabel_2.setFont(new Font("Harlow Solid Italic", Font.PLAIN, 49));
-        lblNewLabel_2.setBounds(500, 60, 459, 87);
-        add(lblNewLabel_2);
 
         lblNewLabel = new JLabel("");
         lblNewLabel.setHorizontalAlignment(SwingConstants.RIGHT);

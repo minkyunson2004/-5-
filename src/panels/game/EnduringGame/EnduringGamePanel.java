@@ -10,12 +10,14 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JPanel;
+import javax.imageio.ImageIO;
+import javax.swing.*;
 
 import frame.MainFrame;
 import image.GameBackground;
@@ -29,6 +31,9 @@ import ingame.Tacle;
 import util.Util;
 
 public class EnduringGamePanel extends JPanel {
+
+    // 딸기 목숨 이미지 아이콘
+    private ImageIcon strawberryLife;
 
     // 쿠키 이미지 아이콘들
     private ImageIcon cookieIc; // 기본모션
@@ -98,17 +103,11 @@ public class EnduringGamePanel extends JPanel {
 
     private int runStage = 1; // 스테이지를 확인하는 변수이다. (미구현)
 
-    private int resultScore = 0; // 결과점수를 수집하는 변수
-
     private int gameSpeed = 5; // 게임 속도
 
     private int nowField = 2000; // 발판의 높이를 저장.
 
-    private JButton escButton; // esc 버튼 (테스트 중)
-
     private boolean fadeOn = false;
-
-    private boolean escKeyOn = false; // 일시정지를 위한 esc키 확인
 
     private boolean downKeyOn = false; // 다운키 눌렀는지 여부
 
@@ -116,6 +115,10 @@ public class EnduringGamePanel extends JPanel {
 
     int face; // 쿠키의 정면
     int foot; // 쿠키의 발
+
+    private int lives = 3;
+    private BufferedImage strawberryLifeImage;
+    private boolean isGameOver = false;
 
     // 이미지 파일로 된 맵을 가져온다.
     private int[] sizeArr; // 이미지의 넓이와 높이를 가져오는 1차원 배열
@@ -152,17 +155,11 @@ public class EnduringGamePanel extends JPanel {
         this.superFrame = superFrame;
         this.cl = superFrame.getLayout();
 
-        // 일시정지 버튼
-        escButton = new JButton("back");
-        escButton.setBounds(400, 235, 100, 30);
-        escButton.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                remove(escButton);
-                escKeyOn = false;
-            }
-        });
-
+        try {
+            strawberryLifeImage = ImageIO.read(new File("img/game/Common/lifebar/strawberryLife.png"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     // 게임을 세팅한다
@@ -191,6 +188,7 @@ public class EnduringGamePanel extends JPanel {
     // 화면을 그린다
     @Override
     protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
 
         // 더블버퍼는 그림을 미리그려놓고 화면에 출력한다.
 
@@ -303,33 +301,17 @@ public class EnduringGamePanel extends JPanel {
 //		buffg.setColor(Color.WHITE);
 //		buffg.drawString(Integer.toString(resultScore), 700, 85);
 
-        // 점수를 그린다
-        Util.drawFancyString(g2, Integer.toString(resultScore), 600, 58, 30, Color.WHITE);
+        // 목숨을 그린다
+        if (strawberryLifeImage != null) {
+            for (int i = 0; i < lives; i++) {
+                buffg.drawImage(strawberryLifeImage, 10 + (i * 50), 10, null);
 
-        // 체력게이지를 그린다
-        buffg.drawImage(lifeBar.getImage(), 20, 30, null);
-        buffg.setColor(Color.BLACK);
-        buffg.fillRect(84 + (int) (470 * ((double) c1.getHealth() / 1000)), 65,
-                1 + 470 - (int) (470 * ((double) c1.getHealth() / 1000)), 21);
+            }
+        }
 
         // 버튼을 그린다
         buffg.drawImage(jumpBtn, 0, 380, 132, 100, null);
         buffg.drawImage(slideBtn, 768, 380, 132, 100, null);
-
-        if (escKeyOn) { // esc키를 누를경우 화면을 흐리게 만든다
-
-            // alpha값을 반투명하게 만든다
-            alphaComposite = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, (float) 100 / 255);
-            g2.setComposite(alphaComposite);
-
-            buffg.setColor(Color.BLACK);
-
-            buffg.fillRect(0, 0, 900, 500);
-
-            // alpha값을 되돌린다
-            alphaComposite = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, (float) 255 / 255);
-            g2.setComposite(alphaComposite);
-        }
 
         // 버퍼이미지를 화면에 출력한다
         g.drawImage(buffImage, 0, 0, this);
@@ -491,8 +473,8 @@ public class EnduringGamePanel extends JPanel {
     // makeMo, initImageIcon, imitMap 메서드를 이용해서 객체 생성
     private void initObject() {
 
-        // 생명게이지 이미지아이콘
-        lifeBar = new ImageIcon("img/game/Common/lifebar/lifeBar1.png");
+        // 딸기 목숨 이미지
+        strawberryLife = new ImageIcon("img/game/Common/lifebar/strawberryLife.png");
 
         // 피격 붉은 이미지
         redBg = new ImageIcon("img/game/Common/lifebar/redBg.png");
@@ -583,35 +565,21 @@ public class EnduringGamePanel extends JPanel {
             @Override
             public void keyPressed(KeyEvent e) {
 
-                if (e.getKeyCode() == KeyEvent.VK_ESCAPE) { // esc키를 눌렀을 때
-                    if (!escKeyOn) {
-                        escKeyOn = true;
-                        add(escButton);
-                        repaint(); // 화면을 어둡게 하기위한 리페인트
-                    } else {
-                        remove(escButton);
-                        escKeyOn = false;
+                if (e.getKeyCode() == KeyEvent.VK_SPACE) {// 스페이스 키를 누르고 더블점프가 2가 아닐때
+                    jumpBtn = jumpButtonIconDown.getImage();
+                    if (c1.getCountJump() < 2) {
+                        jump(); // 점프 메서드 가동
                     }
                 }
+                if (e.getKeyCode() == KeyEvent.VK_DOWN) { // 다운키를 눌렀을 때
+                    slideBtn = slideIconDown.getImage();
+                    downKeyOn = true; // downKeyOn 변수를 true로
 
-                if (!escKeyOn) {
-                    if (e.getKeyCode() == KeyEvent.VK_SPACE) {// 스페이스 키를 누르고 더블점프가 2가 아닐때
-                        jumpBtn = jumpButtonIconDown.getImage();
-                        if (c1.getCountJump() < 2) {
-                            jump(); // 점프 메서드 가동
-                        }
-                    }
-                    if (e.getKeyCode() == KeyEvent.VK_DOWN) { // 다운키를 눌렀을 때
-                        slideBtn = slideIconDown.getImage();
-                        downKeyOn = true; // downKeyOn 변수를 true로
+                    if (c1.getImage() != slideIc.getImage() // 쿠키이미지가 슬라이드 이미지가 아니고
+                            && !c1.isJump() // 점프 중이 아니며
+                            && !c1.isFall()) { // 낙하 중도 아닐 때
 
-                        if (c1.getImage() != slideIc.getImage() // 쿠키이미지가 슬라이드 이미지가 아니고
-                                && !c1.isJump() // 점프 중이 아니며
-                                && !c1.isFall()) { // 낙하 중도 아닐 때
-
-                            c1.setImage(slideIc.getImage()); // 이미지를 슬라이드이미지로 변경
-
-                        }
+                        c1.setImage(slideIc.getImage()); // 이미지를 슬라이드이미지로 변경
                     }
                 }
             }
@@ -645,18 +613,8 @@ public class EnduringGamePanel extends JPanel {
 
             @Override
             public void run() {
-                while (true) {
+                while (!isGameOver) {
                     repaint();
-
-                    if (escKeyOn) { // esc 키를 누를경우 리페인트를 멈춘다
-                        while (escKeyOn) {
-                            try {
-                                Thread.sleep(10);
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    }
 
                     try {
                         Thread.sleep(10);
@@ -674,22 +632,15 @@ public class EnduringGamePanel extends JPanel {
 
             @Override
             public void run() {
-                while (true) {
-
-                    if (runPage > 800) { // 800픽셀 이동 마다 체력이 10씩 감소한다 (추후 맵길이에 �上 감소량 조절)
-                        c1.setHealth((int)c1.getHealth() - 10);
-                        runPage = 0;
-                    }
+                while (!isGameOver) {
 
                     runPage += gameSpeed; // 화면이 이동하면 runPage에 이동한 만큼 저장된다.
 
                     foot = c1.getY() + c1.getHeight(); // 캐릭터 발 위치 재스캔
-                    if (foot > 1999 || c1.getHealth() < 1) {
-                        superFrame.getEnduringEndPanel().setResultScore(resultScore);
+                    if (foot > 1999) {
                         cl.show(superFrame.getContentPane(), "EnduringEndPanel");
                         superFrame.setEnduringGamePanel(new EnduringGamePanel(superFrame));
                         superFrame.requestFocus();
-                        escKeyOn = true;
                     }
 
                     // 배경 이미지 변경
@@ -853,15 +804,7 @@ public class EnduringGamePanel extends JPanel {
                                             && tempJelly.getY() + tempJelly.getWidth() * 80 / 100 <= foot
                                             && tempJelly.getImage() != jellyEffectIc.getImage()) {
 
-                                if (tempJelly.getImage() == jellyHPIc.getImage()) {
-                                    if ((c1.getHealth() + 100) > 1000) {
-                                        c1.setHealth(1000);
-                                    } else {
-                                        c1.setHealth(c1.getHealth() + 100);
-                                    }
-                                }
                                 tempJelly.setImage(jellyEffectIc.getImage()); // 젤리의 이미지를 이펙트로 바꾼다
-                                resultScore = resultScore + tempJelly.getScore(); // 총점수에 젤리 점수를 더한다
 
                             } else if ( // 슬라이딩 하는 캐릭터의 범위 안에 젤리가 있으면 아이템을 먹는다.
                                     c1.getImage() == slideIc.getImage()
@@ -872,15 +815,7 @@ public class EnduringGamePanel extends JPanel {
                                             && tempJelly.getY() + tempJelly.getWidth() * 80 / 100 <= foot
                                             && tempJelly.getImage() != jellyEffectIc.getImage()) {
 
-                                if (tempJelly.getImage() == jellyHPIc.getImage()) {
-                                    if ((c1.getHealth() + 100) > 1000) {
-                                        c1.setHealth(1000);
-                                    } else {
-                                        c1.setHealth(c1.getHealth() + 100);
-                                    }
-                                }
                                 tempJelly.setImage(jellyEffectIc.getImage()); // 젤리의 이미지를 이펙트로 바꾼다
-                                resultScore = resultScore + tempJelly.getScore(); // 총점수에 젤리 점수를 더한다
 
                             }
                         }
@@ -975,16 +910,6 @@ public class EnduringGamePanel extends JPanel {
 
                     nowField = tempNowField; // 결과를 nowField에 업데이트 한다.
 
-                    if (escKeyOn) { // esc키를 누르면 게임이 멈춘다
-                        while (escKeyOn) {
-                            try {
-                                Thread.sleep(10);
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    }
-
                     try {
                         Thread.sleep(10);
                     } catch (InterruptedException e) {
@@ -996,6 +921,24 @@ public class EnduringGamePanel extends JPanel {
         }).start();
     }
 
+    private void loseLife() {
+        lives--;
+        if (lives <= 0) {
+            gameOver();
+        }
+    }
+
+    private void gameOver() {
+        isGameOver = true;
+
+        SwingUtilities.invokeLater(() -> {
+            superFrame.remove(superFrame.getEnduringGamePanel());
+            EnduringEndPanel endPanel = new EnduringEndPanel(superFrame);
+            superFrame.setEnduringEndPanel(endPanel);
+            superFrame.add(endPanel, "EnduringEndPanel");
+            superFrame.getLayout().show(superFrame.getContentPane(), "EnduringEndPanel");
+        });
+    }
     // 부딛혔을 때 일어나는 상태를 담당하는 메서드
     private void hit() {
         new Thread(new Runnable() {
@@ -1009,11 +952,11 @@ public class EnduringGamePanel extends JPanel {
 
                 redScreen = true; // 피격 붉은 이펙트 시작
 
-                c1.setHealth(c1.getHealth() - 100); // 쿠키의 체력을 100 깎는다
-
                 c1.setImage(hitIc.getImage()); // 쿠키를 부딛힌 모션으로 변경
 
                 c1.setAlpha(80); // 쿠키의 투명도를 80으로 변경
+
+                loseLife();
 
                 try { // 0.5초 대기
                     Thread.sleep(250);
@@ -1067,13 +1010,12 @@ public class EnduringGamePanel extends JPanel {
 
             @Override
             public void run() {
-                while (true) {
+                while (!isGameOver) {
 
                     foot = c1.getY() + c1.getHeight(); // 캐릭터 발 위치 재스캔
 
                     // 발바닥이 발판보다 위에 있으면 작동
-                    if (!escKeyOn // 일시중지가 발동 안됐을 때
-                            && foot < nowField // 공중에 있으며
+                    if (foot < nowField // 공중에 있으며
                             && !c1.isJump() // 점프 중이 아니며
                             && !c1.isFall()) { // 떨어지는 중이 아닐 때
 
@@ -1104,20 +1046,6 @@ public class EnduringGamePanel extends JPanel {
 
                             if (c1.isJump()) { // 떨어지다가 점프를 하면 낙하중지
                                 break;
-                            }
-
-                            if (escKeyOn) {
-                                long tempT1 = Util.getTime();
-                                long tempT2 = 0;
-                                while (escKeyOn) {
-                                    try {
-                                        Thread.sleep(10);
-                                    } catch (InterruptedException e) {
-                                        e.printStackTrace();
-                                    }
-                                }
-                                tempT2 = Util.getTime() - tempT1;
-                                t1 = t1 + tempT2;
                             }
 
                             try {
@@ -1198,20 +1126,6 @@ public class EnduringGamePanel extends JPanel {
 
                     if (nowJump != c1.getCountJump()) { // 점프가 한번 더되면 첫번째 점프는 멈춘다.
                         break;
-                    }
-
-                    if (escKeyOn) {
-                        long tempT1 = Util.getTime();
-                        long tempT2 = 0;
-                        while (escKeyOn) {
-                            try {
-                                Thread.sleep(10);
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                        tempT2 = Util.getTime() - tempT1;
-                        t1 = t1 + tempT2;
                     }
 
                     try {
