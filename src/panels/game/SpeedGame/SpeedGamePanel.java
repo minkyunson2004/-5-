@@ -110,11 +110,9 @@ public class SpeedGamePanel extends JPanel {
 
     private int nowField = 2000; // 발판의 높이를 저장.
 
-    private JButton escButton; // esc 버튼 (테스트 중)
 
     private boolean fadeOn = false;
 
-    private boolean escKeyOn = false; // 일시정지를 위한 esc키 확인
 
     private boolean downKeyOn = false; // 다운키 눌렀는지 여부
 
@@ -157,17 +155,6 @@ public class SpeedGamePanel extends JPanel {
 
         this.superFrame = superFrame;
         this.cl = superFrame.getLayout();
-
-        // 일시정지 버튼
-        escButton = new JButton("back");
-        escButton.setBounds(350, 200, 100, 30);
-        escButton.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                remove(escButton);
-                escKeyOn = false;
-            }
-        });
 
     }
 
@@ -334,21 +321,6 @@ public class SpeedGamePanel extends JPanel {
         // 버튼을 그린다
         buffg.drawImage(jumpBtn, 0, 360, 132, 100, null);
         buffg.drawImage(slideBtn, 650, 360, 132, 100, null);
-
-        if (escKeyOn) { // esc키를 누를경우 화면을 흐리게 만든다
-
-            // alpha값을 반투명하게 만든다
-            alphaComposite = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, (float) 100 / 255);
-            g2.setComposite(alphaComposite);
-
-            buffg.setColor(Color.BLACK);
-
-            buffg.fillRect(0, 0, 850, 550);
-
-            // alpha값을 되돌린다
-            alphaComposite = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, (float) 255 / 255);
-            g2.setComposite(alphaComposite);
-        }
 
         // 버퍼이미지를 화면에 출력한다
         g.drawImage(buffImage, 0, 0, this);
@@ -579,52 +551,6 @@ public class SpeedGamePanel extends JPanel {
         addKeyListener(new KeyAdapter() { // 키 리스너 추가
 
             @Override
-            public void keyPressed(KeyEvent e) {
-
-                if (e.getKeyCode() == KeyEvent.VK_ESCAPE) { // esc키를 눌렀을 때
-                    if (!escKeyOn) {
-                        escKeyOn = true;
-                        add(escButton);
-                        repaint(); // 화면을 어둡게 하기위한 리페인트
-                    } else {
-                        remove(escButton);
-                        escKeyOn = false;
-                    }
-                }
-
-                if (!escKeyOn) {
-                    if (e.getKeyCode() == KeyEvent.VK_SPACE) {// 스페이스 키를 누르고 더블점프가 2가 아닐때
-                        jumpBtn = jumpButtonIconDown.getImage();
-                        if (c1.getCountJump() < 2) {
-                            jump(); // 점프 메서드 가동
-                        }
-                    }
-                    if (e.getKeyCode() == KeyEvent.VK_LEFT) {// 속도감소버튼
-                        if (gameSpeed > 2 && !hit) {
-                            gameSpeed-=1; // 점프 메서드 가동
-                        }
-                    }
-                    if (e.getKeyCode() == KeyEvent.VK_RIGHT) {// 속도증가버튼
-                        if (gameSpeed < 20 && !hit) {
-                            gameSpeed+=1; // 점프 메서드 가동
-                        }
-                    }
-                    if (e.getKeyCode() == KeyEvent.VK_DOWN) { // 다운키를 눌렀을 때
-                        slideBtn = slideIconDown.getImage();
-                        downKeyOn = true; // downKeyOn 변수를 true로
-
-                        if (c1.getImage() != slideIc.getImage() // 쿠키이미지가 슬라이드 이미지가 아니고
-                                && !c1.isJump() // 점프 중이 아니며
-                                && !c1.isFall()) { // 낙하 중도 아닐 때
-
-                            c1.setImage(slideIc.getImage()); // 이미지를 슬라이드이미지로 변경
-
-                        }
-                    }
-                }
-            }
-
-            @Override
             public void keyReleased(KeyEvent e) {
 
                 if (e.getKeyCode() == KeyEvent.VK_DOWN) { // 다운키를 뗐을 때
@@ -655,16 +581,6 @@ public class SpeedGamePanel extends JPanel {
             public void run() {
                 while (true) {
                     repaint();
-
-                    if (escKeyOn) { // esc 키를 누를경우 리페인트를 멈춘다
-                        while (escKeyOn) {
-                            try {
-                                Thread.sleep(10);
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    }
 
                     try {
                         Thread.sleep(10);
@@ -700,7 +616,7 @@ public class SpeedGamePanel extends JPanel {
                         cl.show(superFrame.getContentPane(), "SpeedEndPanel");
                         superFrame.setSpeedGamePanel(new SpeedGamePanel(superFrame));
                         superFrame.requestFocus();
-                        escKeyOn = true;
+
                     }
                     if (foot > 1999) { // && 상대 결승도달
                         winlose=0;
@@ -708,7 +624,7 @@ public class SpeedGamePanel extends JPanel {
                         cl.show(superFrame.getContentPane(), "SpeedEndPanel");
                         superFrame.setSpeedGamePanel(new SpeedGamePanel(superFrame));
                         superFrame.requestFocus();
-                        escKeyOn = true;
+
                     }
 
                     // 배경 이미지 변경
@@ -979,15 +895,6 @@ public class SpeedGamePanel extends JPanel {
 
                     nowField = tempNowField; // 결과를 nowField에 업데이트 한다.
 
-                    if (escKeyOn) { // esc키를 누르면 게임이 멈춘다
-                        while (escKeyOn) {
-                            try {
-                                Thread.sleep(10);
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    }
 
                     try {
                         Thread.sleep(10);
@@ -1078,8 +985,7 @@ public class SpeedGamePanel extends JPanel {
                     foot = c1.getY() + c1.getHeight(); // 캐릭터 발 위치 재스캔
 
                     // 발바닥이 발판보다 위에 있으면 작동
-                    if (!escKeyOn // 일시중지가 발동 안됐을 때
-                            && foot < nowField // 공중에 있으며
+                    if (foot < nowField // 공중에 있으며
                             && !c1.isJump() // 점프 중이 아니며
                             && !c1.isFall()) { // 떨어지는 중이 아닐 때
 
@@ -1110,20 +1016,6 @@ public class SpeedGamePanel extends JPanel {
 
                             if (c1.isJump()) { // 떨어지다가 점프를 하면 낙하중지
                                 break;
-                            }
-
-                            if (escKeyOn) {
-                                long tempT1 = Util.getTime();
-                                long tempT2 = 0;
-                                while (escKeyOn) {
-                                    try {
-                                        Thread.sleep(10);
-                                    } catch (InterruptedException e) {
-                                        e.printStackTrace();
-                                    }
-                                }
-                                tempT2 = Util.getTime() - tempT1;
-                                t1 = t1 + tempT2;
                             }
 
                             try {
@@ -1204,20 +1096,6 @@ public class SpeedGamePanel extends JPanel {
 
                     if (nowJump != c1.getCountJump()) { // 점프가 한번 더되면 첫번째 점프는 멈춘다.
                         break;
-                    }
-
-                    if (escKeyOn) {
-                        long tempT1 = Util.getTime();
-                        long tempT2 = 0;
-                        while (escKeyOn) {
-                            try {
-                                Thread.sleep(10);
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                        tempT2 = Util.getTime() - tempT1;
-                        t1 = t1 + tempT2;
                     }
 
                     try {
