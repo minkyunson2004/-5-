@@ -5,6 +5,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,6 +13,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
+import client.Client;
 import frame.MainFrame;
 import image.GameBackground;
 import ingame.Back;
@@ -21,6 +23,7 @@ import ingame.Field;
 import ingame.Jelly;
 import ingame.MapObjectImg;
 import ingame.Tacle;
+import main.Main;
 import util.Util;
 
 public class SpeedGamePanel extends JPanel {
@@ -659,32 +662,44 @@ public class SpeedGamePanel extends JPanel {
             public void run() {
                 while (true) {
 
-
                     if (runPage > 630) { // 100픽셀 이동 마다 진행률 1% 증가
                         myScore+=1;
                         runPage = 0;
                     }
-
                     runPage += gameSpeed; // 화면이 이동하면 runPage에 이동한 만큼 저장된다.
-
                     foot = c1.getY() + c1.getHeight(); // 캐릭터 발 위치 재스캔
-                    if (myScore>=100) { // && 상대 낙하
-                        winlose=1;
-                        superFrame.getSpeedEndPanel().setResultScore(winlose);
-                        cl.show(superFrame.getContentPane(), "SpeedEndPanel");
-                        superFrame.setSpeedGamePanel(new SpeedGamePanel(superFrame));
-                        superFrame.requestFocus();
-                        break;
 
-                    }
-                    if (foot > 1999) { // && 상대 결승도달
-                        winlose=0;
-                        superFrame.getSpeedEndPanel().setResultScore(winlose);
-                        cl.show(superFrame.getContentPane(), "SpeedEndPanel");
-                        superFrame.setSpeedGamePanel(new SpeedGamePanel(superFrame));
-                        superFrame.requestFocus();
-                        break;
+                    try {
+                        if(foot > 1999) Main.client.out.write("gameOver\n");
+                        else if (myScore >= 100) Main.client.out.write("gameEnd\n");
+                        else Main.client.out.write(myScore + "\n");
+                        Main.client.out.flush();
 
+                        String gameRelay = Main.client.in.readLine();
+                        if(gameRelay.equals("end")){
+                            String result = Main.client.in.readLine();
+                            if(result.equals("winner")){
+                                winlose=1;
+                                superFrame.getSpeedEndPanel().setResultScore(winlose);
+                                cl.show(superFrame.getContentPane(), "SpeedEndPanel");
+                                superFrame.setSpeedGamePanel(new SpeedGamePanel(superFrame));
+                                superFrame.requestFocus();
+                                break;
+                            }
+                            else if(result.equals("loser")){
+                                winlose=0;
+                                superFrame.getSpeedEndPanel().setResultScore(winlose);
+                                cl.show(superFrame.getContentPane(), "SpeedEndPanel");
+                                superFrame.setSpeedGamePanel(new SpeedGamePanel(superFrame));
+                                superFrame.requestFocus();
+                                break;
+                            }
+                        }
+                        else{
+                            opponentScore = Integer.parseInt(gameRelay);
+                        }
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
                     }
 
                     // 배경 이미지 변경

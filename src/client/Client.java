@@ -7,8 +7,8 @@ import java.net.Socket;
 
 public class Client {
     Socket socket;
-    BufferedReader in;
-    BufferedWriter out;
+    public BufferedReader in;
+    public BufferedWriter out;
 
     public Client(String ip, int port){
         try {
@@ -82,4 +82,6 @@ public class Client {
             throw new RuntimeException(e);
         }
     }
+
+
 }
