@@ -668,7 +668,7 @@ public class SpeedGamePanel extends JPanel {
                     }
                     runPage += gameSpeed; // 화면이 이동하면 runPage에 이동한 만큼 저장된다.
                     foot = c1.getY() + c1.getHeight(); // 캐릭터 발 위치 재스캔
-
+                    /*
                     try {
                         if(foot > 1999) Main.client.out.write("gameOver\n");
                         else if (myScore >= 100) Main.client.out.write("gameEnd\n");
@@ -701,6 +701,7 @@ public class SpeedGamePanel extends JPanel {
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     }
+                    */
 
                     // 배경 이미지 변경
                     if (fadeOn == false) { // 페이드아웃인 상태가 아닐때
