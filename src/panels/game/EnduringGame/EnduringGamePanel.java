@@ -74,9 +74,6 @@ public class EnduringGamePanel extends JPanel {
     private ImageIcon tacle30Ic; // 3칸 장애물
     private ImageIcon tacle40Ic; // 4칸 장애물
 
-    // 체력 게이지
-    private ImageIcon lifeBar;
-
     private ImageIcon redBg; // 피격시 붉은 화면
 
     private ImageIcon jumpButtonIconUp;
@@ -96,6 +93,8 @@ public class EnduringGamePanel extends JPanel {
     private List<Tacle> tacleList; // 장애물 리스트
 
     private List<Integer> mapLengthList;
+
+    private int winlose = -1;
 
     private int mapLength = 0;
 
@@ -637,7 +636,9 @@ public class EnduringGamePanel extends JPanel {
                     runPage += gameSpeed; // 화면이 이동하면 runPage에 이동한 만큼 저장된다.
 
                     foot = c1.getY() + c1.getHeight(); // 캐릭터 발 위치 재스캔
-                    if (foot > 1999) {
+                    if (foot > 1999 || lives <= 0) {
+                        winlose = 0;
+                        superFrame.getEnduringEndPanel().setResultScore(winlose);
                         cl.show(superFrame.getContentPane(), "EnduringEndPanel");
                         superFrame.setEnduringGamePanel(new EnduringGamePanel(superFrame));
                         superFrame.requestFocus();
@@ -645,6 +646,7 @@ public class EnduringGamePanel extends JPanel {
                     }
 
                     // 배경 이미지 변경
+
                     if (fadeOn == false) { // 페이드아웃인 상태가 아닐때
                         if (mapLength > mapLengthList.get(2) * 40 + 800 && b11.getImage() != backIc4.getImage()) {
                             fadeOn = true;
@@ -924,9 +926,6 @@ public class EnduringGamePanel extends JPanel {
 
     private void loseLife() {
         lives--;
-        if (lives <= 0) {
-            gameOver();
-        }
     }
 
     private void gameOver() {
