@@ -19,6 +19,7 @@ import java.util.List;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
+import main.Main;
 import frame.MainFrame;
 import image.GameBackground;
 import ingame.Back;
@@ -28,7 +29,6 @@ import ingame.Field;
 import ingame.Jelly;
 import ingame.MapObjectImg;
 import ingame.Tacle;
-import main.Main;
 import util.Util;
 
 public class EnduringGamePanel extends JPanel {
@@ -637,7 +637,9 @@ public class EnduringGamePanel extends JPanel {
                     runPage += gameSpeed; // 화면이 이동하면 runPage에 이동한 만큼 저장된다.
 
                     foot = c1.getY() + c1.getHeight(); // 캐릭터 발 위치 재스캔
+
                     int opponentLive;
+
                     try {
                         if(foot > 1999 || lives == 0) Main.client.out.write("gameOver\n");
                         else Main.client.out.write(lives + "\n");
@@ -669,6 +671,7 @@ public class EnduringGamePanel extends JPanel {
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     }
+
                     // 배경 이미지 변경
 
                     if (fadeOn == false) { // 페이드아웃인 상태가 아닐때
