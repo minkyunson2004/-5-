@@ -28,6 +28,7 @@ import ingame.Field;
 import ingame.Jelly;
 import ingame.MapObjectImg;
 import ingame.Tacle;
+import main.Main;
 import util.Util;
 
 public class EnduringGamePanel extends JPanel {
@@ -636,15 +637,38 @@ public class EnduringGamePanel extends JPanel {
                     runPage += gameSpeed; // 화면이 이동하면 runPage에 이동한 만큼 저장된다.
 
                     foot = c1.getY() + c1.getHeight(); // 캐릭터 발 위치 재스캔
-                    if (foot > 1999 || lives <= 0) {
-                        winlose = 0;
-                        superFrame.getEnduringEndPanel().setResultScore(winlose);
-                        cl.show(superFrame.getContentPane(), "EnduringEndPanel");
-                        superFrame.setEnduringGamePanel(new EnduringGamePanel(superFrame));
-                        superFrame.requestFocus();
-                        break;
-                    }
+                    int opponentLive;
+                    try {
+                        if(foot > 1999 || lives == 0) Main.client.out.write("gameOver\n");
+                        else Main.client.out.write(lives + "\n");
+                        Main.client.out.flush();
 
+                        String gameRelay = Main.client.in.readLine();
+                        if(gameRelay.equals("end")){
+                            String result = Main.client.in.readLine();
+                            if(result.equals("winner")){
+                                winlose=1;
+                                superFrame.getEnduringEndPanel().setResultScore(winlose);
+                                cl.show(superFrame.getContentPane(), "EnduringEndPanel");
+                                superFrame.setEnduringGamePanel(new EnduringGamePanel(superFrame));
+                                superFrame.requestFocus();
+                                break;
+                            }
+                            else if(result.equals("loser")){
+                                winlose=0;
+                                superFrame.getEnduringEndPanel().setResultScore(winlose);
+                                cl.show(superFrame.getContentPane(), "EnduringEndPanel");
+                                superFrame.setEnduringGamePanel(new EnduringGamePanel(superFrame));
+                                superFrame.requestFocus();
+                                break;
+                            }
+                        }
+                        else{
+                            opponentLive = Integer.parseInt(gameRelay);
+                        }
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
                     // 배경 이미지 변경
 
                     if (fadeOn == false) { // 페이드아웃인 상태가 아닐때
