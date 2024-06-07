@@ -83,5 +83,17 @@ public class Client {
         }
     }
 
-
+    public String[] getSpeedRank(){
+        String[] returnData = new String[100];
+        try {
+            out.write("sendSpeedRank\n");
+            out.flush();
+            for(int i = 0; i < 100; i++){
+                returnData[i] = in.readLine();
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return returnData;
+    }
 }
