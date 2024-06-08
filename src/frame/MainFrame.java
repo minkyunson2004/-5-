@@ -46,9 +46,8 @@ public class MainFrame extends JFrame {
     SpeedEndPanel speedEndPanel = new SpeedEndPanel(this);
     EnduringGamePanel enduringGamePanel = new EnduringGamePanel(this);
     EnduringEndPanel enduringEndPanel = new EnduringEndPanel(this);
-
-    private String userId;
-
+    SpeedModePVPReadyPanel speedModePvpReadyPanel = new SpeedModePVPReadyPanel(this);
+    EnduringModePVPReadyPanel enduringModePvpReadyPanel = new EnduringModePVPReadyPanel(this);
 
     //MainFrame initializing method
     public MainFrame() {
@@ -80,6 +79,8 @@ public class MainFrame extends JFrame {
         this.add(speedEndPanel, "SpeedEndPanel");
         this.add(enduringGamePanel, "EnduringGamePanel");
         this.add(enduringEndPanel, "EnduringEndPanel");
+        this.add(speedModePvpReadyPanel, "SpeedModePvpReadyPanel");
+        this.add(speedModePvpReadyPanel, "SpeedModePvpReadyPanel");
         this.addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
                 Main.client.communicationExit();
@@ -246,20 +247,6 @@ public class MainFrame extends JFrame {
 
     public void setEnduringModePVPReadyPanel(EnduringModePVPReadyPanel enduringModePVPReadyPanel) {
         this.enduringModePVPReadyPanel = enduringModePVPReadyPanel;
-    }
-
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
-        if (this.speedModeReadyPanel != null) {
-            this.speedModeReadyPanel.setUserId(userId);
-        }
-        if (this.enduringModeReadyPanel != null) {
-            this.enduringModeReadyPanel.setUserId(userId);
-        }
     }
 }
 

@@ -77,12 +77,7 @@ public class IdInputPanel extends JPanel{
                 e1.printStackTrace();
             }
             Main.userName = idInputField.getText();
-            //유저이름의 길이를 10글자로 고정
-            if(Main.userName.length() < 10) {
-                int insufficientNumberOfCharacters = 10 - Main.userName.length();
-                for(int i = 0; i < insufficientNumberOfCharacters; i++) Main.userName += " ";
-            }
-            else Main.userName = Main.userName.substring(0, 10);
+            if(Main.userName.length() > 10) Main.userName = Main.userName.substring(0, 10);
 
             superFrame.getLayout().show(superFrame.getContentPane(), "GameModeSelectPanel"); //gameModeSelect 패널을 카드레이아웃 최상단으로 변경
             superFrame.setVisible(true);
