@@ -6,6 +6,7 @@ import main.Main;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
 
 public class EnduringModePVPReadyPanel extends JPanel{
     String opponentId = "";
@@ -32,39 +33,50 @@ public class EnduringModePVPReadyPanel extends JPanel{
                         } catch (InterruptedException e) {
                             throw new RuntimeException(e);
                         }
-                        opponentId = "sfasde";
-                        paint(EnduringModePVPReadyPanel.this.getGraphics());
-                        try {
-                            Thread.sleep(1000);
-                        } catch (InterruptedException e) {
-                            throw new RuntimeException(e);
-                        }
-                        for(int i = 5; i > 0; i--) {
-                            CountDown = Integer.toString(i);
-                            paint(EnduringModePVPReadyPanel.this.getGraphics());
-                            try {
-                                Thread.sleep(1000);
-                            } catch (InterruptedException e) {
-                                throw new RuntimeException(e);
-                            }
-                        }
-                        CountDown = "start";
-                        paint(EnduringModePVPReadyPanel.this.getGraphics());
                         try {
                             Thread.sleep(300);
                         } catch (InterruptedException e) {
                             throw new RuntimeException(e);
                         }
-                        superFrame.getLayout().show(superFrame.getContentPane(), "EnduringGamePanel"); //gamePanel 을 카드레이아웃 최상단으로 변경
-                        superFrame.getEnduringGamePanel().gameSet(new CookieImg(new ImageIcon("img/cookieimg/cookie4/kch.gif"),
-                                new ImageIcon("img/cookieimg/cookie4/kjump.gif"),
-                                new ImageIcon("img/cookieimg/cookie4/kjump.gif"),
-                                new ImageIcon("img/cookieimg/cookie4/kch.gif"),
-                                new ImageIcon("img/cookieimg/cookie4/kslide.gif"),
-                                new ImageIcon("img/cookieimg/cookie4/kch.gif")));
-                        superFrame.getEnduringGamePanel().gameStart(); // 게임시작
-                        superFrame.getEnduringGamePanel().requestFocus();
-                        superFrame.setVisible(true);
+                        try {
+                            Main.client.out.write("applyEnduringPVP\n");
+                            Main.client.out.flush();
+                            Thread.sleep(10);
+                            Main.client.out.write(Main.userName + "\n");
+                            Main.client.out.flush();
+                            System.out.println("applyEnduringPVP");
+                            opponentId = Main.client.in.readLine();
+                            paint(getGraphics());
+                            try {
+                                Thread.sleep(1000);
+                            } catch (InterruptedException e) {
+                                throw new RuntimeException(e);
+                            }
+                            System.out.println(opponentId);
+                            for (int i = 0; i < 5; i++) {
+                                CountDown = Main.client.in.readLine();
+                                paint(getGraphics());
+                            }
+                            String start = Main.client.in.readLine();
+                            CountDown = "start";
+                            paint(getGraphics());
+                            if (start.equals("start")) {
+                                superFrame.getLayout().show(superFrame.getContentPane(), "EnduringGamePanel"); //gamePanel 을 카드레이아웃 최상단으로 변경
+                                superFrame.getEnduringGamePanel().gameSet(new CookieImg(new ImageIcon("img/cookieimg/cookie4/kch.gif"),
+                                        new ImageIcon("img/cookieimg/cookie4/kjump.gif"),
+                                        new ImageIcon("img/cookieimg/cookie4/kjump.gif"),
+                                        new ImageIcon("img/cookieimg/cookie4/kjump.gif"),
+                                        new ImageIcon("img/cookieimg/cookie4/kslide.gif"),
+                                        new ImageIcon("img/cookieimg/cookie4/kch.gif")));
+                                superFrame.getEnduringGamePanel().gameStart(); // 게임시작
+                                superFrame.getEnduringGamePanel().requestFocus();
+                                superFrame.setVisible(true);
+                            }
+                        } catch (IOException ex) {
+                            throw new RuntimeException(ex);
+                        } catch (InterruptedException ex) {
+                            throw new RuntimeException(ex);
+                        }
                     }
                 });
             }

@@ -6,6 +6,7 @@ import main.Main;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
 
 public class SpeedModePVPReadyPanel extends JPanel{
     String opponentId = "";
@@ -32,39 +33,50 @@ public class SpeedModePVPReadyPanel extends JPanel{
                         } catch (InterruptedException e) {
                             throw new RuntimeException(e);
                         }
-                        opponentId = "sfasde";
-                        paint(SpeedModePVPReadyPanel.this.getGraphics());
                         try {
-                            Thread.sleep(1000);
+                            Thread.sleep(300);
                         } catch (InterruptedException e) {
                             throw new RuntimeException(e);
                         }
-                        for(int i = 5; i > 0; i--) {
-                            CountDown = Integer.toString(i);
+                        try {
+                            Main.client.out.write("applySpeedPVP\n");
+                            Main.client.out.flush();
+                            Thread.sleep(10);
+                            Main.client.out.write(Main.userName + "\n");
+                            Main.client.out.flush();
+                            System.out.println("applySpeedPVP");
+                            opponentId = Main.client.in.readLine();
                             paint(SpeedModePVPReadyPanel.this.getGraphics());
                             try {
                                 Thread.sleep(1000);
                             } catch (InterruptedException e) {
                                 throw new RuntimeException(e);
                             }
+                            System.out.println(opponentId);
+                            for(int i = 0; i < 5; i++) {
+                                CountDown = Main.client.in.readLine();
+                                paint(SpeedModePVPReadyPanel.this.getGraphics());
+                            }
+                            String start = Main.client.in.readLine();
+                            CountDown = "start";
+                            paint(SpeedModePVPReadyPanel.this.getGraphics());
+                            if(start.equals("start")){
+                                superFrame.getLayout().show(superFrame.getContentPane(), "SpeedGamePanel"); //gamePanel 을 카드레이아웃 최상단으로 변경
+                                superFrame.getSpeedGamePanel().gameSet(new CookieImg(new ImageIcon("img/cookieimg/cookie2/normal.gif"),
+                                        new ImageIcon("img/cookieimg/cookie2/jump.gif"),
+                                        new ImageIcon("img/cookieimg/cookie2/doublejump.gif"),
+                                        new ImageIcon("img/cookieimg/cookie2/fall.png"),
+                                        new ImageIcon("img/cookieimg/cookie2/slide.gif"),
+                                        new ImageIcon("img/cookieimg/cookie2/hit.gif")));
+                                superFrame.getSpeedGamePanel().gameStart(); // 게임시작
+                                superFrame.getSpeedGamePanel().requestFocus();
+                                superFrame.setVisible(true);
+                            }
+                        } catch (IOException ex) {
+                            throw new RuntimeException(ex);
+                        } catch (InterruptedException ex) {
+                            throw new RuntimeException(ex);
                         }
-                        CountDown = "start";
-                        paint(SpeedModePVPReadyPanel.this.getGraphics());
-                        try {
-                            Thread.sleep(300);
-                        } catch (InterruptedException e) {
-                            throw new RuntimeException(e);
-                        }
-                        superFrame.getLayout().show(superFrame.getContentPane(), "SpeedGamePanel"); //gamePanel 을 카드레이아웃 최상단으로 변경
-                        superFrame.getSpeedGamePanel().gameSet(new CookieImg(new ImageIcon("img/cookieimg/cookie2/normal.gif"),
-                                new ImageIcon("img/cookieimg/cookie2/jump.gif"),
-                                new ImageIcon("img/cookieimg/cookie2/doublejump.gif"),
-                                new ImageIcon("img/cookieimg/cookie2/fall.png"),
-                                new ImageIcon("img/cookieimg/cookie2/slide.gif"),
-                                new ImageIcon("img/cookieimg/cookie2/hit.png")));
-                        superFrame.getSpeedGamePanel().gameStart(); // 게임시작
-                        superFrame.getSpeedGamePanel().requestFocus();
-                        superFrame.setVisible(true);
                     }
                 });
             }
