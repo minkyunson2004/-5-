@@ -639,7 +639,7 @@ public class EnduringGamePanel extends JPanel {
                     foot = c1.getY() + c1.getHeight(); // 캐릭터 발 위치 재스캔
 
                     int opponentLive;
-
+                    /*
                     try {
                         if(foot > 1999 || lives == 0) Main.client.out.write("gameOver\n");
                         else Main.client.out.write(lives + "\n");
@@ -671,6 +671,8 @@ public class EnduringGamePanel extends JPanel {
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     }
+
+                     */
 
                     // 배경 이미지 변경
 
