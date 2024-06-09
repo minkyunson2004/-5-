@@ -2,11 +2,13 @@ package panels.gameReady;
 
 import frame.MainFrame;
 import ingame.CookieImg;
+import main.Main;
 
 import javax.swing.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.IOException;
 
 public class EnduringModeReadyPanel extends ReadyPanel{
     public EnduringModeReadyPanel(MainFrame superFrame) {
@@ -30,6 +32,38 @@ public class EnduringModeReadyPanel extends ReadyPanel{
                 } catch (InterruptedException e1) {
                     e1.printStackTrace();
                 }
+
+                try {
+                    Main.client.out.write("applyEnduringPVP\n");
+                    Main.client.out.flush();
+                    Thread.sleep(10);
+                    Main.client.out.write(Main.userName + "\n");
+                    Main.client.out.flush();
+                    System.out.println("applyEnduringPVP");
+                    String opponentUserName = Main.client.in.readLine();
+                    System.out.println(opponentUserName);
+                    for(int i = 0; i < 5; i++) {
+                        Main.client.in.readLine();
+                    }
+                    String start = Main.client.in.readLine();
+                    if(start.equals("start")){
+                        superFrame.getLayout().show(superFrame.getContentPane(), "EnduringGamePanel"); //gamePanel 을 카드레이아웃 최상단으로 변경
+                        superFrame.getEnduringGamePanel().gameSet(new CookieImg(new ImageIcon("img/cookieimg/cookie4/kch.gif"),
+                                new ImageIcon("img/cookieimg/cookie4/kjump.gif"),
+                                new ImageIcon("img/cookieimg/cookie4/kjump.gif"),
+                                new ImageIcon("img/cookieimg/cookie4/kjump.gif"),
+                                new ImageIcon("img/cookieimg/cookie4/kslide.gif"),
+                                new ImageIcon("img/cookieimg/cookie4/kch.gif")));
+                        superFrame.getEnduringGamePanel().gameStart(); // 게임시작
+                        superFrame.getEnduringGamePanel().requestFocus();
+                        superFrame.setVisible(true);
+                    }
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                } catch (InterruptedException ex) {
+                    throw new RuntimeException(ex);
+                }
+                /*
                 superFrame.getLayout().show(superFrame.getContentPane(), "EnduringGamePanel"); //gamePanel 을 카드레이아웃 최상단으로 변경
                 superFrame.getEnduringGamePanel().gameSet(new CookieImg(new ImageIcon("img/cookieimg/cookie4/kch.gif"),
                         new ImageIcon("img/cookieimg/cookie4/kjump.gif"),
@@ -40,6 +74,8 @@ public class EnduringModeReadyPanel extends ReadyPanel{
                 superFrame.getEnduringGamePanel().gameStart(); // 게임시작
                 superFrame.getEnduringGamePanel().requestFocus();
                 superFrame.setVisible(true);
+
+                 */
             }
         };
     }
