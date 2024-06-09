@@ -8,9 +8,7 @@ import image.ModeSelectButtonImage;
 import image.RankingLabel;
 
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.event.*;
 
 abstract public class ReadyPanel extends JPanel {
     //MainFrame
@@ -88,7 +86,7 @@ abstract public class ReadyPanel extends JPanel {
     }
     abstract protected MouseListener setMouseListener();
 
-    private class CustomLabel extends JLabel {
+    protected class CustomLabel extends JLabel {
         private int index;
 
         public CustomLabel(String text, int index) {
