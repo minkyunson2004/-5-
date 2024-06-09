@@ -28,13 +28,9 @@ public class SpeedModePVPReadyPanel extends JPanel{
                 SwingUtilities.invokeLater(new Runnable() {
                     @Override
                     public void run() {
+                        paint(SpeedModePVPReadyPanel.this.getGraphics());
                         try {
                             Thread.sleep(1000);
-                        } catch (InterruptedException e) {
-                            throw new RuntimeException(e);
-                        }
-                        try {
-                            Thread.sleep(300);
                         } catch (InterruptedException e) {
                             throw new RuntimeException(e);
                         }
@@ -60,6 +56,8 @@ public class SpeedModePVPReadyPanel extends JPanel{
                             String start = Main.client.in.readLine();
                             CountDown = "start";
                             paint(SpeedModePVPReadyPanel.this.getGraphics());
+                            CountDown = "";
+                            opponentId = "";
                             if(start.equals("start")){
                                 superFrame.getLayout().show(superFrame.getContentPane(), "SpeedGamePanel"); //gamePanel 을 카드레이아웃 최상단으로 변경
                                 superFrame.getSpeedGamePanel().gameSet(new CookieImg(new ImageIcon("img/cookieimg/cookie2/normal.gif"),

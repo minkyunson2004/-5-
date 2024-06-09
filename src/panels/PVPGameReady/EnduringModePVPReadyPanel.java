@@ -28,13 +28,9 @@ public class EnduringModePVPReadyPanel extends JPanel{
                 SwingUtilities.invokeLater(new Runnable() {
                     @Override
                     public void run() {
+                        paint(EnduringModePVPReadyPanel.this.getGraphics());
                         try {
                             Thread.sleep(1000);
-                        } catch (InterruptedException e) {
-                            throw new RuntimeException(e);
-                        }
-                        try {
-                            Thread.sleep(300);
                         } catch (InterruptedException e) {
                             throw new RuntimeException(e);
                         }
@@ -46,7 +42,7 @@ public class EnduringModePVPReadyPanel extends JPanel{
                             Main.client.out.flush();
                             System.out.println("applyEnduringPVP");
                             opponentId = Main.client.in.readLine();
-                            paint(getGraphics());
+                            paint(EnduringModePVPReadyPanel.this.getGraphics());
                             try {
                                 Thread.sleep(1000);
                             } catch (InterruptedException e) {
@@ -55,11 +51,13 @@ public class EnduringModePVPReadyPanel extends JPanel{
                             System.out.println(opponentId);
                             for (int i = 0; i < 5; i++) {
                                 CountDown = Main.client.in.readLine();
-                                paint(getGraphics());
+                                paint(EnduringModePVPReadyPanel.this.getGraphics());
                             }
                             String start = Main.client.in.readLine();
                             CountDown = "start";
-                            paint(getGraphics());
+                            paint(EnduringModePVPReadyPanel.this.getGraphics());
+                            CountDown = "";
+                            opponentId = "";
                             if (start.equals("start")) {
                                 superFrame.getLayout().show(superFrame.getContentPane(), "EnduringGamePanel"); //gamePanel 을 카드레이아웃 최상단으로 변경
                                 superFrame.getEnduringGamePanel().gameSet(new CookieImg(new ImageIcon("img/cookieimg/cookie4/kch.gif"),

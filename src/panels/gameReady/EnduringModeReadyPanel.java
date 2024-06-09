@@ -24,10 +24,6 @@ public class EnduringModeReadyPanel extends ReadyPanel{
 
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
-
     @Override
     protected MouseListener setMouseListener() {
         return new MouseAdapter() {
