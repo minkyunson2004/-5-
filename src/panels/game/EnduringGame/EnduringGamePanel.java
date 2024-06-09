@@ -672,6 +672,15 @@ public class EnduringGamePanel extends JPanel {
                         throw new RuntimeException(e);
                     }
 
+                    try{
+                        if(mapLength >= mapLengthList.get(2) * 40 + 800 && (mapLength - (mapLengthList.get(2) * 40 + 800)) % (Util.getSize("img/game/Enduring/map4.png")[0] * 40)== 0) {
+                            initMap(4, Util.getSize("img/game/Enduring/map4.png")[0] + 20);
+                            mapLength -= Util.getSize("img/game/Enduring/map4.png")[0];
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
                     // 배경 이미지 변경
 
                     if (fadeOn == false) { // 페이드아웃인 상태가 아닐때
