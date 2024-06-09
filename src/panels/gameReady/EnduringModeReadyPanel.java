@@ -21,7 +21,11 @@ public class EnduringModeReadyPanel extends ReadyPanel{
 
     @Override
     public void getServerData() {
-
+        String[] ranking = Main.client.getEnduringRank();
+        System.arraycopy(ranking, 0, super.rank, 0, ranking.length);
+        for(int i = 0; i < 100; i++) {
+            RankingList[i].setText((i + 1) + ((i > 8)?"":"  ") + ((i == 99)?"":"  ") + "   " + rank[i]);
+        }
     }
 
     @Override
