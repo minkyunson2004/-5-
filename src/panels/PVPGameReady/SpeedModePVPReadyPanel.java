@@ -50,7 +50,7 @@ public class SpeedModePVPReadyPanel extends JPanel{
                             }
                             System.out.println(opponentId);
                             for(int i = 0; i < 5; i++) {
-                                CountDown = Main.client.in.readLine();
+                                CountDown = "   " + Main.client.in.readLine();
                                 paint(SpeedModePVPReadyPanel.this.getGraphics());
                             }
                             String start = Main.client.in.readLine();
@@ -85,12 +85,16 @@ public class SpeedModePVPReadyPanel extends JPanel{
         super.paintComponent(g);
         g.drawImage(new ImageIcon("img/ready/PVPReadyBackground.png").getImage(), 0, 0, 900, 500, this);
         g.drawImage(new ImageIcon("img/ready/SpeedClient.png").getImage(), 163, 170, 150, 200, this);
+        if(!opponentId.equals("")) {
+            g.drawImage(new ImageIcon("img/ready/SpeedClient.png").getImage(), 587, 170, 150, 200, this);
+        }
         g.setColor(Color.BLACK);
         g.fillRect(163, 117, 150, 30);
         g.fillRect(587, 117, 150, 30);
         g.setColor(Color.WHITE);
         g.drawString(Main.userName, 163, 137);
         g.drawString(opponentId, 587, 137);
-        g.drawString(CountDown, 420, 220);
+        g.setFont(new Font("Times New Roman", Font.BOLD, 30));
+        g.drawString(CountDown, 425, 220);
     }
 }
