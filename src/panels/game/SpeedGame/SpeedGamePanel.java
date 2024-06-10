@@ -234,7 +234,7 @@ public class SpeedGamePanel extends JPanel {
             // 사양을 덜 잡아먹게 하기위한 조치
             if (tempFoot.getX() > -90 && tempFoot.getX() < 900) { // x값이 -90~810인 객체들만 그린다.
 
-                buffg.drawImage(tempFoot.getImage(), tempFoot.getX(), tempFoot.getY(), tempFoot.getWidth(),
+                buffg.drawImage(tempFoot.getImage(), tempFoot.getX(), tempFoot.getY() + 20, tempFoot.getWidth(),
                         tempFoot.getHeight(), null);
             }
 
@@ -251,7 +251,7 @@ public class SpeedGamePanel extends JPanel {
                         (float) tempJelly.getAlpha() / 255);
                 g2.setComposite(alphaComposite); // 투명하게 하는방법 2
 
-                buffg.drawImage(tempJelly.getImage(), tempJelly.getX(), tempJelly.getY(), tempJelly.getWidth(),
+                buffg.drawImage(tempJelly.getImage(), tempJelly.getX(), tempJelly.getY() + 20, tempJelly.getWidth(),
                         tempJelly.getHeight(), null);
 
                 // alpha값을 되돌린다
@@ -267,7 +267,7 @@ public class SpeedGamePanel extends JPanel {
 
             if (tempTacle.getX() > -90 && tempTacle.getX() < 900) {
 
-                buffg.drawImage(tempTacle.getImage(), tempTacle.getX(), tempTacle.getY(), tempTacle.getWidth(),
+                buffg.drawImage(tempTacle.getImage(), tempTacle.getX(), tempTacle.getY() + 20, tempTacle.getWidth(),
                         tempTacle.getHeight(), null);
             }
         }
@@ -278,7 +278,7 @@ public class SpeedGamePanel extends JPanel {
             g2.setComposite(alphaComposite);
 
             // 쿠키를 그린다
-            buffg.drawImage(c1.getImage(), c1.getX() - 110, c1.getY() - 170,
+            buffg.drawImage(c1.getImage(), c1.getX() - 110, c1.getY() - 150,
                     cookieIc.getImage().getWidth(null) * 8 / 10, cookieIc.getImage().getHeight(null) * 8 / 10, null);
 
             // alpha값을 되돌린다
@@ -288,7 +288,7 @@ public class SpeedGamePanel extends JPanel {
         } else { // 무적상태가 아닐 경우
 
             // 쿠키를 그린다
-            buffg.drawImage(c1.getImage(), c1.getX() - 110, c1.getY() - 170,
+            buffg.drawImage(c1.getImage(), c1.getX() - 110, c1.getY() - 150,
                     cookieIc.getImage().getWidth(null) * 8 / 10, cookieIc.getImage().getHeight(null) * 8 / 10, null);
         }
 
@@ -331,10 +331,10 @@ public class SpeedGamePanel extends JPanel {
 
 
         // 버튼을 그린다
-        buffg.drawImage(jumpBtn, 0, 360, 132, 100, null);
-        buffg.drawImage(slideBtn, 720, 360, 132, 100, null);
-        buffg.drawImage(leftBtn, 150, 360, 90, 90, null);
-        buffg.drawImage(rightBtn, 600, 360, 90, 90, null);
+        buffg.drawImage(jumpBtn, 0, 380, 132, 100, null);
+        buffg.drawImage(slideBtn, 768, 380, 132, 100, null);
+        buffg.drawImage(leftBtn, 150, 380, 90, 90, null);
+        buffg.drawImage(rightBtn, 660, 380, 90, 90, null);
 
         // 버퍼이미지를 화면에 출력한다
         g.drawImage(buffImage, 0, 0, this);
