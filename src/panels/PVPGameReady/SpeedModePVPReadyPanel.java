@@ -37,7 +37,7 @@ public class SpeedModePVPReadyPanel extends JPanel{
                         try {
                             Main.client.out.write("applySpeedPVP\n");
                             Main.client.out.flush();
-                            Thread.sleep(10);
+                            Main.client.in.readLine();
                             Main.client.out.write(Main.userName + "\n");
                             Main.client.out.flush();
                             System.out.println("applySpeedPVP");
@@ -71,8 +71,6 @@ public class SpeedModePVPReadyPanel extends JPanel{
                                 superFrame.setVisible(true);
                             }
                         } catch (IOException ex) {
-                            throw new RuntimeException(ex);
-                        } catch (InterruptedException ex) {
                             throw new RuntimeException(ex);
                         }
                     }
