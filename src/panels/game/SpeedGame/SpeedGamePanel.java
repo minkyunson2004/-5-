@@ -1042,8 +1042,8 @@ public class SpeedGamePanel extends JPanel {
                 gameSpeed=2;
                 if (hitPenalty<7) {
                     hitPenalty++;
-                    penaltyTime = 2 + hitPenalty;
                 }
+                penaltyTime = 2 + hitPenalty;
 
 
                 c1.setAlpha(80); // 쿠키의 투명도를 80으로 변경
