@@ -1040,8 +1040,10 @@ public class SpeedGamePanel extends JPanel {
                 redScreen = true; // 피격 붉은 이펙트 시작
                 hit = true;
                 gameSpeed=2;
-                hitPenalty++;
-                penaltyTime= 2+hitPenalty;
+                if (hitPenalty<7) {
+                    hitPenalty++;
+                }
+                penaltyTime = 2 + hitPenalty;
 
 
                 c1.setAlpha(80); // 쿠키의 투명도를 80으로 변경
