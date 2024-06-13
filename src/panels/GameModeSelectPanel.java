@@ -77,9 +77,9 @@ public class GameModeSelectPanel extends JPanel {
                     superFrame.getEnduringModeReadyPanel().setFocusable(true);
                 }
             }
-
             superFrame.getLayout().show(superFrame.getContentPane(), mode + "ModeReadyPanel"); //gameReadyPanel 을 카드레이아웃 최상단으로 변경
             superFrame.setVisible(true);
+            superFrame.setFocusable(true);
         }
     }
 }

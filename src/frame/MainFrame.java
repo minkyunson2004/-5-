@@ -5,6 +5,7 @@ import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
+import client.Client;
 import main.Main;
 import panels.*;
 import panels.game.EnduringGame.EnduringEndPanel;
@@ -16,8 +17,10 @@ import panels.game.NormalScoreGame.NormalScoreGamePanel;
 import panels.game.SpeedGame.SpeedEndPanel;
 import panels.game.SpeedGame.SpeedGamePanel;
 import panels.gameReady.*;
+import panels.PVPGameReady.*;
 
 public class MainFrame extends JFrame {
+    public static Client client;
     //getLayout() 오버라이딩(JFrame component)
     private final CardLayout MainFrameLayout = new CardLayout();
     @Override
@@ -32,7 +35,9 @@ public class MainFrame extends JFrame {
     NormalScoreModeReadyPanel normalScoreModeReadyPanel = new NormalScoreModeReadyPanel(this);
     HardScoreModeReadyPanel hardScoreModeReadyPanel = new HardScoreModeReadyPanel(this);
     SpeedModeReadyPanel speedModeReadyPanel = new SpeedModeReadyPanel(this);
+    SpeedModePVPReadyPanel speedModePVPReadyPanel = new SpeedModePVPReadyPanel(this);
     EnduringModeReadyPanel enduringModeReadyPanel = new EnduringModeReadyPanel(this);
+    EnduringModePVPReadyPanel enduringModePVPReadyPanel = new EnduringModePVPReadyPanel(this);
     NormalScoreGamePanel normalScoreGamePanel = new NormalScoreGamePanel(this);
     NormalScoreEndPanel normalScoreEndPanel = new NormalScoreEndPanel(this);
     HardScoreGamePanel hardScoreGamePanel = new HardScoreGamePanel(this);
@@ -41,6 +46,8 @@ public class MainFrame extends JFrame {
     SpeedEndPanel speedEndPanel = new SpeedEndPanel(this);
     EnduringGamePanel enduringGamePanel = new EnduringGamePanel(this);
     EnduringEndPanel enduringEndPanel = new EnduringEndPanel(this);
+    SpeedModePVPReadyPanel speedModePvpReadyPanel = new SpeedModePVPReadyPanel(this);
+    EnduringModePVPReadyPanel enduringModePvpReadyPanel = new EnduringModePVPReadyPanel(this);
 
     //MainFrame initializing method
     public MainFrame() {
@@ -61,7 +68,9 @@ public class MainFrame extends JFrame {
         this.add(normalScoreModeReadyPanel, "NormalScoreModeReadyPanel");
         this.add(hardScoreModeReadyPanel, "HardScoreModeReadyPanel");
         this.add(speedModeReadyPanel, "SpeedModeReadyPanel");
+        this.add(speedModePVPReadyPanel, "SpeedModePVPReadyPanel");
         this.add(enduringModeReadyPanel, "EnduringModeReadyPanel");
+        this.add(enduringModePVPReadyPanel, "EnduringModePVPReadyPanel");
         this.add(normalScoreGamePanel, "NormalScoreGamePanel");
         this.add(normalScoreEndPanel, "NormalScoreEndPanel");
         this.add(hardScoreGamePanel, "HardScoreGamePanel");
@@ -70,6 +79,8 @@ public class MainFrame extends JFrame {
         this.add(speedEndPanel, "SpeedEndPanel");
         this.add(enduringGamePanel, "EnduringGamePanel");
         this.add(enduringEndPanel, "EnduringEndPanel");
+        this.add(speedModePvpReadyPanel, "SpeedModePvpReadyPanel");
+        this.add(speedModePvpReadyPanel, "SpeedModePvpReadyPanel");
         this.addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
                 Main.client.communicationExit();
@@ -78,6 +89,29 @@ public class MainFrame extends JFrame {
             }
         });
     }
+
+    public void showSpeedModeReadyPanel() {
+        MainFrameLayout.show(this.getContentPane(), "SpeedModeReadyPanel");
+    }
+
+    public void showSpeedModePVPReadyPanel() {
+        MainFrameLayout.show(this.getContentPane(), "SpeedModePVPReadyPanel");
+    }
+
+    public void showSpeedGamePanel() {
+        MainFrameLayout.show(this.getContentPane(), "SpeedGamePanel");
+    }
+
+    public void showSpeedEndPanel() {
+        MainFrameLayout.show(this.getContentPane(), "SpeedEndPanel");
+    }
+
+    public void showEnduringModeReadyPanel() { MainFrameLayout.show(this.getContentPane(), "EnduringModeReadyPanel"); }
+
+    public void showEnduringModePVPReadyPanel() { MainFrameLayout.show(this.getContentPane(), "EnduringModePVPReadyPanel"); }
+    public void showEnduringGamePanel() { MainFrameLayout.show(this.getContentPane(), "EnduringGamePanel"); }
+
+    public void showEnduringEndPanel() { MainFrameLayout.show(this.getContentPane(), "EnduringEndPanel"); }
 
     public NormalScoreGamePanel getNormalScoreGamePanel() {
         return normalScoreGamePanel;
@@ -197,6 +231,22 @@ public class MainFrame extends JFrame {
 
     public void setEnduringEndPanel(EnduringEndPanel enduringEndPanel) {
         this.enduringEndPanel = enduringEndPanel;
+    }
+
+    public SpeedModePVPReadyPanel getSpeedModePVPReadyPanel() {
+        return speedModePVPReadyPanel;
+    }
+
+    public void setSpeedModePVPReadyPanel(SpeedModePVPReadyPanel speedModePVPReadyPanel) {
+        this.speedModePVPReadyPanel = speedModePVPReadyPanel;
+    }
+
+    public EnduringModePVPReadyPanel getEnduringModePVPReadyPanel() {
+        return enduringModePVPReadyPanel;
+    }
+
+    public void setEnduringModePVPReadyPanel(EnduringModePVPReadyPanel enduringModePVPReadyPanel) {
+        this.enduringModePVPReadyPanel = enduringModePVPReadyPanel;
     }
 }
 

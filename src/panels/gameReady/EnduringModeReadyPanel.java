@@ -2,6 +2,9 @@ package panels.gameReady;
 
 import frame.MainFrame;
 import ingame.CookieImg;
+import main.Main;
+import panels.PVPGameReady.EnduringModePVPReadyPanel;
+import panels.PVPGameReady.SpeedModePVPReadyPanel;
 
 import javax.swing.*;
 import java.awt.event.MouseAdapter;
@@ -9,19 +12,24 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 public class EnduringModeReadyPanel extends ReadyPanel{
+    private String userId;
     public EnduringModeReadyPanel(MainFrame superFrame) {
         super(superFrame);
         super.RankingTitle.setText("Enduring Mode 순위");
         super.RankingTitle.setIconTextGap(-173);
     }
+
     @Override
-    public void getServerData(){
+    public void getServerData() {
+        String[] ranking = Main.client.getEnduringRank();
+        System.arraycopy(ranking, 0, super.rank, 0, ranking.length);
         for(int i = 0; i < 100; i++) {
-            super.rank[i] = Integer.toString(i);
+            RankingList[i].setText((i + 1) + ((i > 8)?"":"  ") + ((i == 99)?"":"  ") + "   " + rank[i]);
         }
     }
+
     @Override
-    protected MouseListener setMouseListener(){
+    protected MouseListener setMouseListener() {
         return new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -30,15 +38,8 @@ public class EnduringModeReadyPanel extends ReadyPanel{
                 } catch (InterruptedException e1) {
                     e1.printStackTrace();
                 }
-                superFrame.getLayout().show(superFrame.getContentPane(), "EnduringGamePanel"); //gamePanel 을 카드레이아웃 최상단으로 변경
-                superFrame.getEnduringGamePanel().gameSet(new CookieImg(new ImageIcon("img/cookieimg/cookie4/kch.gif"),
-                        new ImageIcon("img/cookieimg/cookie4/kjump.gif"),
-                        new ImageIcon("img/cookieimg/cookie4/kjump.gif"),
-                        new ImageIcon("img/cookieimg/cookie4/kjump.gif"),
-                        new ImageIcon("img/cookieimg/cookie4/kslide.gif"),
-                        new ImageIcon("img/cookieimg/cookie4/kch.gif")));
-                superFrame.getEnduringGamePanel().gameStart(); // 게임시작
-                superFrame.getEnduringGamePanel().requestFocus();
+                superFrame.getLayout().show(superFrame.getContentPane(), "EnduringModePvpReadyPanel"); //gamePanel 을 카드레이아웃 최상단으로 변경
+                superFrame.getEnduringModePVPReadyPanel().start();
                 superFrame.setVisible(true);
             }
         };

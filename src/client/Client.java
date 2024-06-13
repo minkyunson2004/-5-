@@ -7,8 +7,8 @@ import java.net.Socket;
 
 public class Client {
     Socket socket;
-    BufferedReader in;
-    BufferedWriter out;
+    public BufferedReader in;
+    public BufferedWriter out;
 
     public Client(String ip, int port){
         try {
@@ -81,5 +81,33 @@ public class Client {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public String[] getSpeedRank(){
+        String[] returnData = new String[100];
+        try {
+            out.write("sendSpeedRank\n");
+            out.flush();
+            for(int i = 0; i < 100; i++){
+                returnData[i] = in.readLine();
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return returnData;
+    }
+
+    public String[] getEnduringRank(){
+        String[] returnData = new String[100];
+        try {
+            out.write("sendEnduringRank\n");
+            out.flush();
+            for(int i = 0; i < 100; i++){
+                returnData[i] = in.readLine();
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return returnData;
     }
 }

@@ -698,11 +698,13 @@ public class HardScoreGamePanel extends JPanel {
                         escKeyOn = true;
                     }
 
+                    if(mapLength == mapLengthList.get(1) * 40 + 1600) gameSpeed = 10;
                     try{
-                        if(mapLength >= mapLengthList.get(2) * 40 + 800 && (mapLength - (mapLengthList.get(2) * 40 + 800)) % (Util.getSize("img/game/HardScore/map4.png")[0] * 40)== 0) {
+                        if(mapLength >= mapLengthList.get(2) * 40 + 800 && (mapLength - (mapLengthList.get(2) * 40 + 800)) % (Util.getSize("img/game/HardScore/map4.png")[0] * 40) < gameSpeed) {
                             initMap(4, Util.getSize("img/game/HardScore/map4.png")[0] + 20);
                             mapLength -= Util.getSize("img/game/HardScore/map4.png")[0];
                         }
+                        gameSpeed++;
                     } catch (Exception e) {
                         e.printStackTrace();
                     }

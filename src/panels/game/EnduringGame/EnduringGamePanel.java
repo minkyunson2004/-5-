@@ -19,6 +19,7 @@ import java.util.List;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
+import main.Main;
 import frame.MainFrame;
 import image.GameBackground;
 import ingame.Back;
@@ -636,13 +637,48 @@ public class EnduringGamePanel extends JPanel {
                     runPage += gameSpeed; // 화면이 이동하면 runPage에 이동한 만큼 저장된다.
 
                     foot = c1.getY() + c1.getHeight(); // 캐릭터 발 위치 재스캔
-                    if (foot > 1999 || lives <= 0) {
-                        winlose = 0;
-                        superFrame.getEnduringEndPanel().setResultScore(winlose);
-                        cl.show(superFrame.getContentPane(), "EnduringEndPanel");
-                        superFrame.setEnduringGamePanel(new EnduringGamePanel(superFrame));
-                        superFrame.requestFocus();
-                        break;
+
+                    int opponentLive;
+
+                    try {
+                        if(foot > 1999 || lives == 0) Main.client.out.write("gameOver\n");
+                        else Main.client.out.write(lives + "\n");
+                        Main.client.out.flush();
+
+                        String gameRelay = Main.client.in.readLine();
+                        if(gameRelay.equals("end")){
+                            String result = Main.client.in.readLine();
+                            if(result.equals("winner")){
+                                winlose=1;
+                                superFrame.getEnduringEndPanel().setResultScore(winlose);
+                                cl.show(superFrame.getContentPane(), "EnduringEndPanel");
+                                superFrame.setEnduringGamePanel(new EnduringGamePanel(superFrame));
+                                superFrame.requestFocus();
+                                break;
+                            }
+                            else if(result.equals("loser")){
+                                winlose=0;
+                                superFrame.getEnduringEndPanel().setResultScore(winlose);
+                                cl.show(superFrame.getContentPane(), "EnduringEndPanel");
+                                superFrame.setEnduringGamePanel(new EnduringGamePanel(superFrame));
+                                superFrame.requestFocus();
+                                break;
+                            }
+                        }
+                        else{
+                            opponentLive = Integer.parseInt(gameRelay);
+                        }
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+
+                    try{
+                        if(mapLength >= mapLengthList.get(2) * 40 + 800 && (mapLength - (mapLengthList.get(2) * 40 + 800)) % (Util.getSize("img/game/Enduring/map4.png")[0] * 40)== 0) {
+                            initMap(4, Util.getSize("img/game/Enduring/map4.png")[0] + 20);
+                            mapLength -= Util.getSize("img/game/Enduring/map4.png")[0];
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
 
                     // 배경 이미지 변경

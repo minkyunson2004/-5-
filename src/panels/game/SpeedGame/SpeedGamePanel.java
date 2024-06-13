@@ -5,6 +5,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,6 +13,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
+import client.Client;
 import frame.MainFrame;
 import image.GameBackground;
 import ingame.Back;
@@ -21,6 +23,7 @@ import ingame.Field;
 import ingame.Jelly;
 import ingame.MapObjectImg;
 import ingame.Tacle;
+import main.Main;
 import util.Util;
 
 public class SpeedGamePanel extends JPanel {
@@ -231,7 +234,7 @@ public class SpeedGamePanel extends JPanel {
             // 사양을 덜 잡아먹게 하기위한 조치
             if (tempFoot.getX() > -90 && tempFoot.getX() < 900) { // x값이 -90~810인 객체들만 그린다.
 
-                buffg.drawImage(tempFoot.getImage(), tempFoot.getX(), tempFoot.getY(), tempFoot.getWidth(),
+                buffg.drawImage(tempFoot.getImage(), tempFoot.getX(), tempFoot.getY() + 20, tempFoot.getWidth(),
                         tempFoot.getHeight(), null);
             }
 
@@ -248,7 +251,7 @@ public class SpeedGamePanel extends JPanel {
                         (float) tempJelly.getAlpha() / 255);
                 g2.setComposite(alphaComposite); // 투명하게 하는방법 2
 
-                buffg.drawImage(tempJelly.getImage(), tempJelly.getX(), tempJelly.getY(), tempJelly.getWidth(),
+                buffg.drawImage(tempJelly.getImage(), tempJelly.getX(), tempJelly.getY() + 20, tempJelly.getWidth(),
                         tempJelly.getHeight(), null);
 
                 // alpha값을 되돌린다
@@ -264,7 +267,7 @@ public class SpeedGamePanel extends JPanel {
 
             if (tempTacle.getX() > -90 && tempTacle.getX() < 900) {
 
-                buffg.drawImage(tempTacle.getImage(), tempTacle.getX(), tempTacle.getY(), tempTacle.getWidth(),
+                buffg.drawImage(tempTacle.getImage(), tempTacle.getX(), tempTacle.getY() + 20, tempTacle.getWidth(),
                         tempTacle.getHeight(), null);
             }
         }
@@ -275,7 +278,7 @@ public class SpeedGamePanel extends JPanel {
             g2.setComposite(alphaComposite);
 
             // 쿠키를 그린다
-            buffg.drawImage(c1.getImage(), c1.getX() - 110, c1.getY() - 170,
+            buffg.drawImage(c1.getImage(), c1.getX() - 110, c1.getY() - 150,
                     cookieIc.getImage().getWidth(null) * 8 / 10, cookieIc.getImage().getHeight(null) * 8 / 10, null);
 
             // alpha값을 되돌린다
@@ -285,7 +288,7 @@ public class SpeedGamePanel extends JPanel {
         } else { // 무적상태가 아닐 경우
 
             // 쿠키를 그린다
-            buffg.drawImage(c1.getImage(), c1.getX() - 110, c1.getY() - 170,
+            buffg.drawImage(c1.getImage(), c1.getX() - 110, c1.getY() - 150,
                     cookieIc.getImage().getWidth(null) * 8 / 10, cookieIc.getImage().getHeight(null) * 8 / 10, null);
         }
 
@@ -328,10 +331,10 @@ public class SpeedGamePanel extends JPanel {
 
 
         // 버튼을 그린다
-        buffg.drawImage(jumpBtn, 0, 360, 132, 100, null);
-        buffg.drawImage(slideBtn, 720, 360, 132, 100, null);
-        buffg.drawImage(leftBtn, 150, 360, 90, 90, null);
-        buffg.drawImage(rightBtn, 600, 360, 90, 90, null);
+        buffg.drawImage(jumpBtn, 0, 380, 132, 100, null);
+        buffg.drawImage(slideBtn, 768, 380, 132, 100, null);
+        buffg.drawImage(leftBtn, 150, 380, 90, 90, null);
+        buffg.drawImage(rightBtn, 660, 380, 90, 90, null);
 
         // 버퍼이미지를 화면에 출력한다
         g.drawImage(buffImage, 0, 0, this);
@@ -659,33 +662,46 @@ public class SpeedGamePanel extends JPanel {
             public void run() {
                 while (true) {
 
-
                     if (runPage > 630) { // 100픽셀 이동 마다 진행률 1% 증가
                         myScore+=1;
                         runPage = 0;
                     }
-
                     runPage += gameSpeed; // 화면이 이동하면 runPage에 이동한 만큼 저장된다.
-
                     foot = c1.getY() + c1.getHeight(); // 캐릭터 발 위치 재스캔
-                    if (myScore>=100) { // && 상대 낙하
-                        winlose=1;
-                        superFrame.getSpeedEndPanel().setResultScore(winlose);
-                        cl.show(superFrame.getContentPane(), "SpeedEndPanel");
-                        superFrame.setSpeedGamePanel(new SpeedGamePanel(superFrame));
-                        superFrame.requestFocus();
-                        break;
 
-                    }
-                    if (foot > 1999) { // && 상대 결승도달
-                        winlose=0;
-                        superFrame.getSpeedEndPanel().setResultScore(winlose);
-                        cl.show(superFrame.getContentPane(), "SpeedEndPanel");
-                        superFrame.setSpeedGamePanel(new SpeedGamePanel(superFrame));
-                        superFrame.requestFocus();
-                        break;
+                    try {
+                        if(foot > 1999) Main.client.out.write("gameOver\n");
+                        else if (myScore >= 100) Main.client.out.write("gameEnd\n");
+                        else Main.client.out.write(myScore + "\n");
+                        Main.client.out.flush();
 
+                        String gameRelay = Main.client.in.readLine();
+                        if(gameRelay.equals("end")){
+                            String result = Main.client.in.readLine();
+                            if(result.equals("winner")){
+                                winlose=1;
+                                superFrame.getSpeedEndPanel().setResultScore(winlose);
+                                cl.show(superFrame.getContentPane(), "SpeedEndPanel");
+                                superFrame.setSpeedGamePanel(new SpeedGamePanel(superFrame));
+                                superFrame.requestFocus();
+                                break;
+                            }
+                            else if(result.equals("loser")){
+                                winlose=0;
+                                superFrame.getSpeedEndPanel().setResultScore(winlose);
+                                cl.show(superFrame.getContentPane(), "SpeedEndPanel");
+                                superFrame.setSpeedGamePanel(new SpeedGamePanel(superFrame));
+                                superFrame.requestFocus();
+                                break;
+                            }
+                        }
+                        else{
+                            opponentScore = Integer.parseInt(gameRelay);
+                        }
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
                     }
+
 
                     // 배경 이미지 변경
                     if (fadeOn == false) { // 페이드아웃인 상태가 아닐때
