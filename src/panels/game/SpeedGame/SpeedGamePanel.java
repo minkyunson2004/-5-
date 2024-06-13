@@ -458,11 +458,11 @@ public class SpeedGamePanel extends JPanel {
         if (num == 1) {
             tempMap = "img/game/Speed/map1.png";
         } else if (num == 2) {
-            tempMap = "img/game/Speed/map1.png";
+            tempMap = "img/game/Speed/map2.png";
         } else if (num == 3) {
-            tempMap = "img/game/Speed/map1.png";
+            tempMap = "img/game/Speed/map3.png";
         } else if (num == 4) {
-            tempMap = "img/game/Speed/map1.png";
+            tempMap = "img/game/Speed/map4.png";
         }
 
         // 맵 정보 불러오기
