@@ -116,7 +116,7 @@ public class EnduringGamePanel extends JPanel {
     int face; // 쿠키의 정면
     int foot; // 쿠키의 발
 
-    private int lives = 3;
+    private int lives = 5;
     private BufferedImage strawberryLifeImage;
     private boolean isGameOver = false;
 
