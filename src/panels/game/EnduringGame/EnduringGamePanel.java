@@ -116,7 +116,7 @@ public class EnduringGamePanel extends JPanel {
     int face; // 쿠키의 정면
     int foot; // 쿠키의 발
 
-    private int lives = 3;
+    private int lives = 5;
     private BufferedImage strawberryLifeImage;
     private boolean isGameOver = false;
 
@@ -973,6 +973,17 @@ public class EnduringGamePanel extends JPanel {
         lives--;
     }
 
+    private void gameOver() {
+        isGameOver = true;
+
+        SwingUtilities.invokeLater(() -> {
+            superFrame.remove(superFrame.getEnduringGamePanel());
+            EnduringEndPanel endPanel = new EnduringEndPanel(superFrame);
+            superFrame.setEnduringEndPanel(endPanel);
+            superFrame.add(endPanel, "EnduringEndPanel");
+            superFrame.getLayout().show(superFrame.getContentPane(), "EnduringEndPanel");
+        });
+    }
     // 부딛혔을 때 일어나는 상태를 담당하는 메서드
     private void hit() {
         new Thread(new Runnable() {
