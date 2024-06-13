@@ -26,6 +26,7 @@ import ingame.Field;
 import ingame.Jelly;
 import ingame.MapObjectImg;
 import ingame.Tacle;
+import panels.game.NormalScoreGame.NormalScoreGamePanel;
 import util.Util;
 
 public class HardScoreGamePanel extends JPanel {
@@ -160,6 +161,7 @@ public class HardScoreGamePanel extends JPanel {
             public void mouseClicked(MouseEvent e) {
                 remove(escButton);
                 escKeyOn = false;
+                HardScoreGamePanel.this.requestFocus();
             }
         });
 

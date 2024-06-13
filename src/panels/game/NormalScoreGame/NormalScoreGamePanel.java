@@ -148,7 +148,7 @@ public class NormalScoreGamePanel extends JPanel {
 
     // 게임패널 생성자 (상위 프레임과 카드레이아웃, 그리고 Main인스턴스를 받는다)
     public NormalScoreGamePanel(MainFrame superFrame) {
-
+        this.setLayout(null);
         this.superFrame = superFrame;
         this.cl = superFrame.getLayout();
 
@@ -160,6 +160,7 @@ public class NormalScoreGamePanel extends JPanel {
             public void mouseClicked(MouseEvent e) {
                 remove(escButton);
                 escKeyOn = false;
+                NormalScoreGamePanel.this.requestFocus();
             }
         });
 
