@@ -188,9 +188,50 @@ public class SpeedGamePanel extends JPanel {
     public void gameStart() {
 
         mapMove(); // 배경 젤리 발판 장애물 작동
-
+        GameEnd();
         fall(); // 낙하 스레드 발동
 
+    }
+
+    public void GameEnd(){
+        new Thread(new Runnable() {
+            public void run() {
+                while (true){
+                    try {
+                        if(foot > 1999) Main.client.out.write("gameOver\n");
+                        else if (myScore >= 100) Main.client.out.write("gameEnd\n");
+                        else Main.client.out.write(myScore + "\n");
+                        Main.client.out.flush();
+
+                        String gameRelay = Main.client.in.readLine();
+                        if(gameRelay.equals("end")){
+                            String result = Main.client.in.readLine();
+                            if(result.equals("winner")){
+                                winlose=1;
+                                superFrame.getSpeedEndPanel().setResultScore(winlose);
+                                cl.show(superFrame.getContentPane(), "SpeedEndPanel");
+                                superFrame.setSpeedGamePanel(new SpeedGamePanel(superFrame));
+                                superFrame.requestFocus();
+                                break;
+                            }
+                            else if(result.equals("loser")){
+                                winlose=0;
+                                superFrame.getSpeedEndPanel().setResultScore(winlose);
+                                cl.show(superFrame.getContentPane(), "SpeedEndPanel");
+                                superFrame.setSpeedGamePanel(new SpeedGamePanel(superFrame));
+                                superFrame.requestFocus();
+                                break;
+                            }
+                        }
+                        else{
+                            opponentScore = Integer.parseInt(gameRelay);
+                        }
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            }
+        }).start();
     }
 
     // 화면을 그린다
